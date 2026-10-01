@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
 import Button from '@/components/Button';
 import { Lock } from 'lucide-react';
 
-export default function CheckoutPage() {
+function CheckoutContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -216,3 +216,12 @@ export default function CheckoutPage() {
     </div>
   );
 }
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={<div className={styles.container}><div className="container" style={{ padding: '2rem', textAlign: 'center' }}>Loading checkout...</div></div>}>
+      <CheckoutContent />
+    </Suspense>
+  );
+}
+
