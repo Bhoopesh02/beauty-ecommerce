@@ -1,0 +1,463 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 4rem 0;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+}
+
+.heroBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
+.heroContainer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.heroContent {
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.heroSubtitle {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  margin-top: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.heroActions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.heroPlaceholderImage {
+  width: 100%;
+  height: 100%;
+  background-color: var(--brand-pink);
+}
+
+/* Promise Section */
+.promise {
+  padding: 1rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.promiseContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  min-width: max-content;
+}
+
+.promiseItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+}
+
+.promiseIcon {
+  color: var(--brand-violet);
+}
+
+/* Product Grid */
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+/* Rituals Section */
+.ritualsSection {
+  background-color: #faf6f8;
+}
+
+.ritualsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.ritualCard {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1.5rem;
+}
+
+.ritualImagePlaceholder {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background-color: var(--brand-mimi);
+  position: relative;
+  overflow: hidden;
+}
+
+.ritualContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.ritualTitle {
+  font-family: var(--font-cinzel), serif;
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+  color: var(--brand-violet);
+}
+
+.ritualType {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+}
+
+/* Concern Grid */
+.concernGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.concernCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  border: 1px solid var(--border);
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  color: var(--brand-violet);
+  transition: all 0.3s ease;
+}
+
+.concernCard:hover {
+  background-color: var(--brand-violet);
+  color: var(--surface);
+}
+
+/* Story Section */
+.storyContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.storyContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.storyText {
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.storyImagePlaceholder {
+  width: 100%;
+  aspect-ratio: 4/5;
+  background-color: var(--brand-pink);
+  position: relative;
+}
+
+.storyOrbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120%;
+  height: 120%;
+  border: 1px solid var(--brand-thistle);
+  border-radius: 50%;
+  z-index: -1;
+  opacity: 0.6;
+}
+
+/* Ingredient Grid */
+.ingredientGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.ingredientCard {
+  text-align: center;
+}
+
+.ingredientImagePlaceholder {
+  width: 100%;
+  aspect-ratio: 1/1;
+  background-color: var(--brand-mimi);
+  border-radius: 50%;
+  margin-bottom: 1.5rem;
+}
+
+.ingredientTitle {
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  color: var(--brand-violet);
+}
+
+/* Handmade Section */
+.handmadeSection {
+  background-color: var(--brand-violet);
+  color: var(--surface);
+}
+
+.handmadeContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.handmadeImagePlaceholder {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background-color: var(--brand-thistle);
+  position: relative;
+  overflow: hidden;
+}
+
+.handmadeContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.handmadeContent h2 {
+  color: var(--brand-mimi);
+}
+
+.handmadeText {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--brand-mimi);
+  margin-top: 1rem;
+}
+
+/* Carousel */
+.carouselWrapper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.productCarousel {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.productCarousel::-webkit-scrollbar {
+  display: none;
+}
+
+.carouselItem {
+  flex: 0 0 75%;
+  scroll-snap-align: start;
+}
+
+/* Testimonials */
+.testimonialSection {
+  background-color: #faf6f8;
+}
+
+.testimonialGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.testimonialCard {
+  background-color: var(--surface);
+  padding: 3rem 2rem;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+
+.stars {
+  color: #d4af37;
+  margin-bottom: 1rem;
+}
+
+.testimonialQuote {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+.testimonialAuthor {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+}
+
+/* Instagram */
+.instaGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.instaImagePlaceholder {
+  aspect-ratio: 1/1;
+  background-color: var(--brand-mimi);
+}
+
+.instaAction {
+  display: flex;
+  justify-content: center;
+}
+
+/* Newsletter */
+.newsletterSection {
+  background-color: var(--brand-mimi);
+  padding: var(--space-section-mobile) 0;
+}
+
+.newsletterForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.newsletterInput {
+  width: 100%;
+  padding: 16px 20px;
+  border: 1px solid var(--brand-thistle);
+  font-size: 1rem;
+  outline: none;
+  background-color: transparent;
+}
+
+.newsletterInput:focus {
+  border-color: var(--brand-violet);
+}
+
+@media (min-width: 768px) {
+  .hero {
+    padding: 0;
+  }
+
+  .heroActions {
+    flex-direction: row;
+  }
+
+  .productGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+
+  .ritualsGrid {
+    flex-direction: row;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+
+  .ritualCard:nth-child(2) {
+    margin-top: 4rem;
+  }
+
+  .ritualCard:nth-child(3) {
+    margin-top: 2rem;
+  }
+
+  .concernGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+
+  .concernCard {
+    height: 160px;
+  }
+
+  .storyContainer {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 8rem;
+  }
+
+  .storyContent {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .storyImagePlaceholder {
+    flex: 1;
+  }
+
+  .ingredientGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+  }
+
+  .handmadeContainer {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 8rem;
+  }
+
+  .handmadeImagePlaceholder {
+    flex: 1;
+  }
+
+  .handmadeContent {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .carouselItem {
+    flex: 0 0 calc(25% - 0.75rem);
+  }
+
+  .testimonialGrid {
+    flex-direction: row;
+    gap: 2rem;
+  }
+
+  .instaGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .newsletterForm {
+    flex-direction: row;
+    max-width: 500px;
+  }
+
+  .newsletterInput {
+    flex: 1;
+  }
+}

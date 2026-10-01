@@ -1,0 +1,148 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.header h1 {
+  font-family: var(--font-cinzel), serif;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.header p {
+  color: var(--text-secondary);
+}
+
+.orderList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.orderCard {
+  background: var(--surface);
+  border: var(--botanical-orbit);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.orderHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.orderHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.orderId {
+  font-family: var(--font-cinzel), serif;
+  font-size: 1.125rem;
+  color: var(--brand-violet);
+  margin: 0;
+}
+
+.orderDate {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.orderStatus {
+  display: inline-flex;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.statusPlaced, .statusConfirmed {
+  background: var(--brand-mimi);
+  color: var(--brand-violet);
+}
+
+.statusPacked, .statusShipped, .statusOutForDelivery {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.statusDelivered {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.statusCancelled {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.orderContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.orderPreview {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.previewImage {
+  width: 60px;
+  height: 60px;
+  background: var(--brand-mimi);
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.previewInfo {
+  flex: 1;
+}
+
+.previewName {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.previewMore {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.orderFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.orderTotal {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+@media (min-width: 768px) {
+  .orderHeader {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .orderContent {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

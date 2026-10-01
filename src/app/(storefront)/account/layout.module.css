@@ -1,0 +1,29 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-section-mobile) 0;
+  min-height: 70vh;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.main {
+  flex: 1;
+}
+
+@media (min-width: 768px) {
+  .layout {
+    padding: var(--space-section-desktop) 0;
+  }
+
+  .content {
+    flex-direction: row;
+    gap: 4rem;
+    margin-top: 3rem;
+  }
+}

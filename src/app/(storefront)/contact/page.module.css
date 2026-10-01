@@ -1,0 +1,142 @@
+.contact {
+  padding: var(--space-section-mobile) 0;
+}
+
+.hero {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  margin-bottom: var(--space-section-mobile);
+}
+
+.heroSubtitle {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-top: 1rem;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+}
+
+.infoCards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  background: var(--surface);
+  border: var(--botanical-orbit);
+  border-radius: 8px;
+}
+
+.cardIcon {
+  width: 48px;
+  height: 48px;
+  background: var(--brand-mimi);
+  color: var(--brand-violet);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cardContent h3 {
+  font-size: 1.125rem;
+  margin: 0 0 0.25rem 0;
+  font-family: var(--font-inter), sans-serif;
+}
+
+.cardContent p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.formContainer {
+  background: var(--surface);
+  border: var(--botanical-orbit);
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formGroup label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1rem;
+  background: transparent;
+  transition: border-color 0.2s ease;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--brand-violet);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.errorText {
+  color: #d32f2f;
+  font-size: 0.75rem;
+}
+
+.successMessage {
+  padding: 1rem;
+  background: var(--brand-mimi);
+  color: var(--brand-violet);
+  border-radius: 4px;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.submitButton {
+  margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+  .contact {
+    padding: var(--space-section-desktop) 0;
+  }
+  
+  .content {
+    grid-template-columns: 1fr 1.5fr;
+  }
+
+  .formContainer {
+    padding: 3rem;
+  }
+}

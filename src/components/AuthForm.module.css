@@ -1,0 +1,147 @@
+.heading {
+  text-align: center;
+  font-family: var(--font-cinzel), serif;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+}
+
+.supportingText {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin-top: -1rem;
+  margin-bottom: 2rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formGroup label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1rem;
+  background: transparent;
+  transition: border-color 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--brand-violet);
+}
+
+.errorText {
+  color: #d32f2f;
+  font-size: 0.75rem;
+  margin-top: -0.25rem;
+}
+
+.forgotPassword {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.forgotPasswordLink {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  text-decoration: underline;
+}
+
+.forgotPasswordLink:hover {
+  color: var(--brand-violet);
+}
+
+.submitButton {
+  margin-top: 1rem;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1.5rem 0;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border);
+}
+
+.divider::before {
+  margin-right: .5em;
+}
+
+.divider::after {
+  margin-left: .5em;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.footerLink {
+  color: var(--brand-violet);
+  font-weight: 500;
+  margin-left: 0.25rem;
+}
+
+.footerLink:hover {
+  text-decoration: underline;
+}
+
+.checkboxGroup {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.checkboxGroup input[type="checkbox"] {
+  margin-top: 0.25rem;
+}
+
+.checkboxGroup label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.checkboxGroup label a {
+  color: var(--brand-violet);
+  text-decoration: underline;
+}
+
+.successMessage {
+  padding: 1rem;
+  background: var(--brand-mimi);
+  color: var(--brand-violet);
+  border-radius: 4px;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+}

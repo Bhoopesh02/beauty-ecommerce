@@ -1,0 +1,221 @@
+.container {
+  padding: var(--space-section-mobile) 0;
+}
+
+.brandHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.brandHeader a {
+  font-family: var(--font-cinzel), serif;
+  font-size: 1.5rem;
+  color: var(--brand-violet);
+  letter-spacing: 0.05em;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+
+.mainCol {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.sideCol {
+  background: var(--surface);
+  border: var(--botanical-orbit);
+  border-radius: 8px;
+  padding: 2rem;
+  height: fit-content;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sectionTitle {
+  font-family: var(--font-cinzel), serif;
+  font-size: 1.25rem;
+  color: var(--brand-violet);
+  margin: 0;
+}
+
+.loginLink {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.loginLink a {
+  color: var(--brand-violet);
+  text-decoration: underline;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formGroup label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1rem;
+  background: transparent;
+  transition: border-color 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--brand-violet);
+}
+
+.paymentBox {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.5rem;
+  text-align: center;
+  background: var(--background);
+}
+
+.paymentBox p {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+/* Order Summary */
+.summaryItems {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.summaryItem {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.itemImage {
+  width: 60px;
+  height: 60px;
+  background: var(--brand-mimi);
+  border-radius: 4px;
+  object-fit: cover;
+  position: relative;
+}
+
+.itemBadge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--text-secondary);
+  color: var(--surface);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.itemInfo {
+  flex: 1;
+}
+
+.itemName {
+  font-weight: 500;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.itemVariant {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.itemPrice {
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.summaryTotals {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.summaryTotalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-cinzel), serif;
+  font-size: 1.25rem;
+  color: var(--brand-violet);
+}
+
+@media (min-width: 768px) {
+  .formRow {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding: 0 0 var(--space-section-desktop) 0;
+  }
+  
+  .brandHeader {
+    padding: 2rem 0;
+  }
+
+  .content {
+    grid-template-columns: 1.5fr 1fr;
+    gap: 4rem;
+  }
+}

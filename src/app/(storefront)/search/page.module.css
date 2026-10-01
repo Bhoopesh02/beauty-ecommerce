@@ -1,0 +1,118 @@
+.container {
+  padding: var(--space-section-mobile) 0;
+  min-height: 70vh;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--space-section-mobile);
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+  margin-top: 1rem;
+}
+
+.searchBar {
+  max-width: 600px;
+  margin: 2rem auto 0;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1rem;
+  background: var(--surface);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--brand-violet);
+}
+
+.resultsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.resultsCount {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+}
+
+.select {
+  padding: 0.5rem 2rem 0.5rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface);
+  font-family: inherit;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1em;
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--brand-violet);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 2rem;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 4rem 0;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.emptyState p {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.emptyActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding: var(--space-section-desktop) 0;
+  }
+  
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+  }
+}

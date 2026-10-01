@@ -1,0 +1,98 @@
+[
+  {
+    "id": "home-hero",
+    "outputFile": "public/images/stock/home-hero/home-hero.webp",
+    "aspectRatio": "16:9",
+    "subject": "Soft botanical flat lay of pink rose petals, hibiscus and green leaves on a cream surface, empty space on the left for text"
+  },
+  {
+    "id": "about-hero",
+    "outputFile": "public/images/stock/about/about-hero.webp",
+    "aspectRatio": "16:9",
+    "subject": "Wide natural scene of dewy leaves and pale pink flowers in soft morning light"
+  },
+  {
+    "id": "about-story",
+    "outputFile": "public/images/stock/about/about-story.webp",
+    "aspectRatio": "4:5",
+    "subject": "Close-up of mixed herbs, petals and a wooden bowl with ground botanicals, no packaging"
+  },
+  {
+    "id": "ing-aloe",
+    "outputFile": "public/images/stock/ingredients/aloe.webp",
+    "aspectRatio": "1:1",
+    "subject": "Fresh aloe vera leaf cross-section on a soft pink background"
+  },
+  {
+    "id": "ing-hibiscus",
+    "outputFile": "public/images/stock/ingredients/hibiscus.webp",
+    "aspectRatio": "1:1",
+    "subject": "Hibiscus flowers on a lilac background"
+  },
+  {
+    "id": "ing-rose",
+    "outputFile": "public/images/stock/ingredients/rose.webp",
+    "aspectRatio": "1:1",
+    "subject": "Rose petals scattered on cream"
+  },
+  {
+    "id": "ing-neem",
+    "outputFile": "public/images/stock/ingredients/neem.webp",
+    "aspectRatio": "1:1",
+    "subject": "Fresh neem leaves on a pale background"
+  },
+  {
+    "id": "ing-coconut",
+    "outputFile": "public/images/stock/ingredients/coconut.webp",
+    "aspectRatio": "1:1",
+    "subject": "Halved coconut with soft shadows on a cream background"
+  },
+  {
+    "id": "ing-turmeric",
+    "outputFile": "public/images/stock/ingredients/turmeric.webp",
+    "aspectRatio": "1:1",
+    "subject": "Turmeric roots and a small mound of turmeric powder on a neutral background"
+  },
+  {
+    "id": "ing-sandalwood",
+    "outputFile": "public/images/stock/ingredients/sandalwood.webp",
+    "aspectRatio": "1:1",
+    "subject": "Sandalwood pieces on a soft beige surface"
+  },
+  {
+    "id": "auth-side",
+    "outputFile": "public/images/stock/auth/auth-side.webp",
+    "aspectRatio": "3:4",
+    "subject": "Quiet botanical still life, lilac and pink tones, vertical composition"
+  },
+  {
+    "id": "cat-skincare",
+    "outputFile": "public/images/stock/categories/skincare.webp",
+    "aspectRatio": "3:2",
+    "subject": "Pink petals and green leaves, fresh and dewy"
+  },
+  {
+    "id": "cat-haircare",
+    "outputFile": "public/images/stock/categories/haircare.webp",
+    "aspectRatio": "3:2",
+    "subject": "Hibiscus and herbs with soft glossy leaf textures"
+  },
+  {
+    "id": "cat-combos",
+    "outputFile": "public/images/stock/categories/combos.webp",
+    "aspectRatio": "3:2",
+    "subject": "Arrangement of mixed flowers and leaves in layered pink and lilac tones"
+  },
+  {
+    "id": "notfound-art",
+    "outputFile": "public/images/stock/decorative/404.webp",
+    "aspectRatio": "1:1",
+    "subject": "Single delicate botanical sprig on a soft mimi-pink background, minimal"
+  },
+  {
+    "id": "success-art",
+    "outputFile": "public/images/stock/decorative/success.webp",
+    "aspectRatio": "1:1",
+    "subject": "Blooming flower in soft light on cream, calm and celebratory but minimal"
+  }
+]

@@ -1,34 +1,24 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --brand-violet: #4a3267;
+  --brand-blush: #de638a;
+  --brand-pink: #f7b9c4;
+  --brand-mimi: #f3d9e5;
+  --brand-thistle: #c6bade;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  --background: #fffbfc;
+  --surface: #ffffff;
+  --text-primary: #241c2b;
+  --text-secondary: #756b78;
+  --border: #e8dde4;
 
-html {
-  height: 100%;
-}
+  /* Responsive spacing tokens */
+  --space-mobile: 24px;
+  --space-section-mobile: 32px;
+  --space-section-desktop: 48px;
+  --max-width: 1280px;
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Botanical Orbit */
+  --botanical-orbit: 1px solid var(--brand-thistle);
 }
 
 * {
@@ -37,13 +27,89 @@ body {
   margin: 0;
 }
 
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-family: var(--font-inter), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 a {
   color: inherit;
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+ul {
+  list-style: none;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-cinzel), serif;
+  font-weight: 400;
+  color: var(--brand-violet);
+  margin-bottom: 0.5em;
+  line-height: 1.2;
+}
+
+.heading-hero {
+  font-size: clamp(3rem, 6vw + 1rem, 5rem);
+  line-height: 1.05;
+}
+
+.heading-section {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-mobile);
+}
+
+.section-spacing {
+  padding: var(--space-section-mobile) 0;
+}
+
+@media (min-width: 768px) {
+  .section-spacing {
+    padding: var(--space-section-desktop) 0;
   }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 800ms ease-out forwards;
 }

@@ -1,0 +1,103 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.header h1 {
+  font-family: var(--font-cinzel), serif;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.header p {
+  color: var(--text-secondary);
+}
+
+.section {
+  background: var(--surface);
+  border: var(--botanical-orbit);
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+.sectionTitle {
+  font-family: var(--font-cinzel), serif;
+  font-size: 1.25rem;
+  color: var(--brand-violet);
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 600px;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formGroup label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1rem;
+  background: transparent;
+  transition: border-color 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--brand-violet);
+}
+
+.input:disabled {
+  background: var(--background);
+  color: var(--text-secondary);
+  cursor: not-allowed;
+}
+
+.errorText {
+  color: #d32f2f;
+  font-size: 0.75rem;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.successMessage {
+  padding: 1rem;
+  background: var(--brand-mimi);
+  color: var(--brand-violet);
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .formRow {
+    grid-template-columns: 1fr 1fr;
+  }
+}
