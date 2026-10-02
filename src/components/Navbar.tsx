@@ -1,7 +1,13 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
   return (
     <header className={styles.header}>
       <div className={styles.announcement}>
@@ -10,7 +16,7 @@ export default function Navbar() {
       
       <div className={`container ${styles.navContainer}`}>
         {/* Mobile Left: Menu Toggle */}
-        <button className={styles.mobileMenuBtn} aria-label="Open menu">
+        <button className={styles.mobileMenuBtn} aria-label="Open menu" onClick={() => setIsMobileMenuOpen(true)}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -33,7 +39,7 @@ export default function Navbar() {
 
         {/* Right: Icons */}
         <div className={styles.iconNav}>
-          <button className={`${styles.iconBtn} ${styles.searchBtn}`} aria-label="Search">
+          <button className={`${styles.iconBtn} ${styles.searchBtn}`} aria-label="Search" onClick={() => setIsSearchOpen(true)}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
           </button>
           <Link href="/account" className={`${styles.iconBtn} ${styles.hideMobile} ${styles.accountBtn}`} aria-label="Account">
@@ -47,6 +53,39 @@ export default function Navbar() {
           </Link>
         </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div className={styles.mobileMenuOverlay}>
+          <div className={styles.mobileMenuHeader}>
+            <span className={styles.mobileMenuTitle}>Menu</span>
+            <button className={styles.closeBtn} onClick={() => setIsMobileMenuOpen(false)} aria-label="Close menu">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          </div>
+          <nav className={styles.mobileNavLinks}>
+            <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
+            <Link href="/products" onClick={() => setIsMobileMenuOpen(false)}>Products</Link>
+            <Link href="/about" onClick={() => setIsMobileMenuOpen(false)}>About Us</Link>
+            <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
+            <hr className={styles.mobileMenuDivider} />
+            <Link href="/account" onClick={() => setIsMobileMenuOpen(false)}>Account</Link>
+            <Link href="/wishlist" onClick={() => setIsMobileMenuOpen(false)}>Wishlist</Link>
+          </nav>
+        </div>
+      )}
+
+      {/* Search Overlay */}
+      {isSearchOpen && (
+        <div className={styles.searchOverlay}>
+          <div className={styles.searchContainer}>
+            <input type="text" placeholder="Search products..." className={styles.searchInput} autoFocus />
+            <button className={styles.closeSearchBtn} onClick={() => setIsSearchOpen(false)} aria-label="Close search">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

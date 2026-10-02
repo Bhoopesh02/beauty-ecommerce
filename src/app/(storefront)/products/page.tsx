@@ -10,15 +10,12 @@ import { products } from "@/data/products";
 // Derive filter options from data
 const categories = Array.from(new Set(products.map(p => p.category).filter(Boolean)));
 const types = Array.from(new Set(products.map(p => p.type).filter(Boolean)));
-const allConcerns = products.flatMap(p => p.concerns || []);
-const concerns = Array.from(new Set(allConcerns));
 
 export default function ShopPage() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  const [selectedConcerns, setSelectedConcerns] = useState<string[]>([]);
   const [minPrice, setMinPrice] = useState<string>("");
   const [maxPrice, setMaxPrice] = useState<string>("");
   const [sortOption, setSortOption] = useState("featured");
@@ -43,10 +40,6 @@ export default function ShopPage() {
 
     if (selectedTypes.length > 0) {
       result = result.filter(p => p.type && selectedTypes.includes(p.type));
-    }
-
-    if (selectedConcerns.length > 0) {
-      result = result.filter(p => p.concerns && p.concerns.some(c => selectedConcerns.includes(c)));
     }
 
     if (minPrice) {
@@ -79,7 +72,7 @@ export default function ShopPage() {
           return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
       }
     });
-  }, [searchQuery, selectedCategories, selectedTypes, selectedConcerns, minPrice, maxPrice, sortOption]);
+  }, [searchQuery, selectedCategories, selectedTypes, minPrice, maxPrice, sortOption]);
 
   const handleCheckboxChange = (
     setter: React.Dispatch<React.SetStateAction<string[]>>, 
@@ -93,7 +86,6 @@ export default function ShopPage() {
   const clearFilters = () => {
     setSelectedCategories([]);
     setSelectedTypes([]);
-    setSelectedConcerns([]);
     setMinPrice("");
     setMaxPrice("");
     setSearchQuery("");
@@ -144,24 +136,6 @@ export default function ShopPage() {
       </div>
 
       <div className={styles.filterGroup}>
-        <h3 className={styles.filterTitle}>Concerns</h3>
-        <ul className={styles.filterList}>
-          {concerns.map(concern => (
-            <li key={concern}>
-              <label className={styles.filterLabel}>
-                <input 
-                  type="checkbox" 
-                  checked={selectedConcerns.includes(concern)}
-                  onChange={() => handleCheckboxChange(setSelectedConcerns, concern)}
-                />
-                {concern}
-              </label>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className={styles.filterGroup}>
         <h3 className={styles.filterTitle}>Price</h3>
         <div className={styles.priceRange}>
           <input 
@@ -182,7 +156,7 @@ export default function ShopPage() {
         </div>
       </div>
       
-      {(selectedCategories.length > 0 || selectedTypes.length > 0 || selectedConcerns.length > 0 || minPrice || maxPrice || searchQuery) && (
+      {(selectedCategories.length > 0 || selectedTypes.length > 0 || minPrice || maxPrice || searchQuery) && (
         <button onClick={clearFilters} className={styles.clearFiltersBtn}>
           Clear All Filters
         </button>

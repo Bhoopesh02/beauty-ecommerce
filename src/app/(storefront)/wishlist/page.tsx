@@ -13,7 +13,7 @@ const initialWishlist = [
     name: 'Radiance Face Oil',
     price: 85,
     category: 'Face',
-    image: '/images/products/Hydraglow-Moisturizer.png',
+    image: '/images/products/Hydraglow-Moisturizer.webp',
     isNew: true
   },
   {
@@ -21,13 +21,45 @@ const initialWishlist = [
     name: 'Rosewater Mist',
     price: 40,
     category: 'Face',
-    image: '/images/products/Rose-Water-Face-Mist.png',
+    image: '/images/products/Rose-Water-Face-Mist.webp',
     isNew: false
   }
 ];
 
 export default function WishlistPage() {
   const [wishlistItems, setWishlistItems] = useState(initialWishlist);
+  const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
+
+  const handleAddToBag = (product: typeof initialWishlist[number]) => {
+    const item = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      variant: 'default',
+      quantity: 1,
+      image: product.image,
+    };
+    const cart = JSON.parse(localStorage.getItem('derrume_cart') || '[]');
+    const existing = cart.find(
+      (i: { id: string; variant: string }) =>
+        i.id === item.id && i.variant === item.variant
+    );
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      cart.push(item);
+    }
+    localStorage.setItem('derrume_cart', JSON.stringify(cart));
+
+    setAddedIds((prev) => new Set(prev).add(product.id));
+    setTimeout(() => {
+      setAddedIds((prev) => {
+        const next = new Set(prev);
+        next.delete(product.id);
+        return next;
+      });
+    }, 1500);
+  };
 
   if (wishlistItems.length === 0) {
     return (
@@ -69,7 +101,13 @@ export default function WishlistPage() {
                 }}
               />
               <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem' }}>
-                <Button variant="primary" style={{ flex: 1 }}>ADD TO BAG</Button>
+                <Button
+                  variant="primary"
+                  style={{ flex: 1 }}
+                  onClick={() => handleAddToBag(product)}
+                >
+                  {addedIds.has(product.id) ? '✓ ADDED' : 'ADD TO BAG'}
+                </Button>
                 <Button 
                   variant="outline" 
                   onClick={() => setWishlistItems(wishlistItems.filter(item => item.id !== product.id))}
@@ -84,3 +122,4 @@ export default function WishlistPage() {
     </div>
   );
 }
+

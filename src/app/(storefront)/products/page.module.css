@@ -32,7 +32,7 @@
 .searchInput {
   width: 100%;
   padding: 0.75rem 1rem 0.75rem 2.5rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 4px;
   font-family: inherit;
   font-size: 1rem;
@@ -58,7 +58,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   background: white;
   border-radius: 4px;
   font-family: inherit;
@@ -79,7 +79,7 @@
 .sortSelect {
   padding: 0.75rem;
   padding-right: 2.5rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 4px;
   font-family: inherit;
   font-size: 0.875rem;
@@ -149,7 +149,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
 }
 
 .drawerHeader h2 {
@@ -172,7 +172,7 @@
 
 .drawerFooter {
   padding: 1rem;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--border);
   display: flex;
   gap: 1rem;
 }
@@ -205,7 +205,7 @@
 }
 
 .filterLabel input[type="checkbox"] {
-  accent-color: var(--primary-color);
+  accent-color: var(--brand-violet);
   width: 1.25rem;
   height: 1.25rem;
 }
@@ -219,7 +219,7 @@
 .priceInput {
   width: 80px;
   padding: 0.5rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 4px;
 }
 
@@ -243,8 +243,8 @@
   margin-top: 1rem;
   padding: 0.5rem 1rem;
   background: none;
-  border: 1px solid var(--primary-color);
-  color: var(--primary-color);
+  border: 1px solid var(--brand-violet);
+  color: var(--brand-violet);
   border-radius: 4px;
   cursor: pointer;
 }

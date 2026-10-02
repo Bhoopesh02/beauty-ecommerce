@@ -89,7 +89,7 @@ export default function Home() {
             </div>
             <div className={styles.ritualCard}>
               <div className={styles.ritualImagePlaceholder}>
-                <Image src="/images/stock/categories/combos.png" alt="Everyday Ritual" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" style={{objectFit: 'cover'}} />
+                <Image src="/images/stock/categories/combos.webp" alt="Everyday Ritual" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" style={{objectFit: 'cover'}} />
               </div>
               <div className={styles.ritualContent}>
                 <h3 className={styles.ritualTitle}>THE EVERYDAY RITUAL</h3>

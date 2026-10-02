@@ -13,7 +13,7 @@ export default function CheckoutSuccessPage() {
       <div className="container animate-fade-in">
         <div className={styles.content}>
           <div className={styles.icon} style={{ position: 'relative', width: '200px', height: '200px', marginBottom: '1.5rem', borderRadius: '50%', overflow: 'hidden', padding: 0, border: 'none', background: 'transparent' }}>
-            <Image src="/images/stock/decorative/success.png" alt="Checkout Success" fill style={{objectFit: 'cover'}} />
+            <Image src="/images/stock/decorative/success.webp" alt="Checkout Success" fill style={{objectFit: 'cover'}} />
           </div>
 
           <h1 className={styles.title}>ORDER CONFIRMED</h1>
