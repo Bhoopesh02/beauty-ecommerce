@@ -18,22 +18,123 @@
   max-width: 600px;
   margin: 2rem auto 0;
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
+}
+
+.searchFormContainer {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 1rem;
+  color: var(--text-secondary);
 }
 
 .searchInput {
-  flex: 1;
-  padding: 0.875rem 1rem;
+  width: 100%;
+  padding: 0.875rem 1rem 0.875rem 2.5rem;
   border: 1px solid var(--border);
   border-radius: 4px;
   font-family: inherit;
   font-size: 1rem;
   background: var(--surface);
+  transition: border-color 0.2s;
 }
 
 .searchInput:focus {
   outline: none;
   border-color: var(--brand-violet);
+}
+
+.layout {
+  display: flex;
+  gap: 3rem;
+  align-items: flex-start;
+}
+
+.sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  display: none;
+}
+
+.sidebarHeader {
+  display: none;
+}
+
+.sidebarTitle {
+  font-family: var(--font-cinzel), serif;
+  font-size: 1.25rem;
+  color: var(--brand-violet);
+  margin: 0;
+}
+
+.filterSection {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1.5rem;
+}
+
+.filterHeader {
+  margin-bottom: 1rem;
+}
+
+.filterTitle {
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.filterOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  accent-color: var(--brand-violet);
+  cursor: pointer;
+}
+
+.clearFiltersBtn {
+  width: 100%;
+  padding: 0.75rem;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clearFiltersBtn:hover {
+  border-color: var(--text-primary);
+  background-color: var(--background);
+}
+
+.mainContent {
+  flex: 1;
+  min-width: 0;
 }
 
 .resultsHeader {
@@ -53,6 +154,20 @@
 .controls {
   display: flex;
   gap: 1rem;
+  align-items: center;
+}
+
+.mobileFilterBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface);
+  font-family: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
 }
 
 .select {
@@ -100,6 +215,61 @@
   justify-content: center;
 }
 
+.filterBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.4);
+  backdrop-filter: blur(2px);
+  z-index: 100;
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 85vw;
+    max-width: 320px;
+    height: 100vh;
+    background-color: var(--surface);
+    z-index: 101;
+    padding: 1.5rem;
+    overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    display: block;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.1);
+  }
+
+  .sidebarOpen {
+    transform: translateX(0);
+  }
+
+  .sidebarHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .closeSidebarBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-primary);
+  }
+
+  .filterBackdrop {
+    display: block;
+  }
+}
+
 @media (min-width: 640px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
@@ -107,12 +277,20 @@
 }
 
 @media (min-width: 1024px) {
+  .sidebar {
+    display: block;
+  }
+  
+  .mobileFilterBtn {
+    display: none;
+  }
+
   .container {
     padding: var(--space-section-desktop) 0;
   }
   
   .grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 3rem;
   }
 }
