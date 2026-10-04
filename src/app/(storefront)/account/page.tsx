@@ -1,18 +1,18 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import styles from './page.module.css';
 import { Package, Heart, MapPin, User, ArrowRight } from 'lucide-react';
-
-export const metadata = {
-  title: 'My Account | DERRUME',
-  description: 'Manage your DERRUME account.',
-};
+import { useAuth } from '@/hooks/useAuth';
 
 export default function AccountDashboard() {
+  const { user } = useAuth();
+
   return (
     <div className={`${styles.dashboard} animate-fade-in`}>
       <div className={styles.welcome}>
-        <h1>WELCOME BACK</h1>
+        <h1>WELCOME BACK{user?.name ? `, ${user.name.toUpperCase()}` : ''}</h1>
         <p>Manage your orders, profile, and preferences.</p>
       </div>
 

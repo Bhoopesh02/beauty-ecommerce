@@ -1,32 +1,34 @@
 'use client';
 
-import React, { useState, Suspense } from 'react';
+import React, { useState, Suspense, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import styles from './page.module.css';
 import Button from '@/components/Button';
 import { Lock } from 'lucide-react';
+import { checkoutService } from '@/services/checkoutService';
+import { cartService } from '@/services/cartService';
+import { orderService } from '@/services/orderService';
+import { useAuth } from '@/hooks/useAuth';
+import { useCart } from '@/hooks/useCart';
 
 function CheckoutContent() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const { user } = useAuth();
+  const { refreshCart } = useCart();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [items, setItems] = useState<any[]>([]);
   const [isClient, setIsClient] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setIsClient(true);
-    const mode = searchParams.get('mode');
+    const mode = checkoutService.getCheckoutMode();
     if (mode === 'buy-now') {
-      const buyNowItem = JSON.parse(localStorage.getItem('derrume_buynow') || '{}');
-      if (buyNowItem && buyNowItem.productId) {
-        setItems([{ ...buyNowItem, id: buyNowItem.productId }]);
-      }
+      setItems(checkoutService.getCheckoutItems());
     } else {
-      const cart = JSON.parse(localStorage.getItem('derrume_cart') || '[]');
-      setItems(cart);
+      cartService.getCart().then(setItems);
     }
-  }, [searchParams]);
+  }, []);
 
   const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
@@ -39,10 +41,23 @@ function CheckoutContent() {
     city: '',
     state: '',
     pincode: '',
-    phone: ''
+    phone: '',
+    paymentMethod: 'card'
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    if (user) {
+      setFormData(prev => ({
+        ...prev,
+        email: user.email || prev.email,
+        firstName: user.name.split(' ')[0] || prev.firstName,
+        lastName: user.name.split(' ').slice(1).join(' ') || prev.lastName,
+        phone: user.phone || prev.phone
+      }));
+    }
+  }, [user]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData(prev => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
@@ -50,13 +65,60 @@ function CheckoutContent() {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate order placement
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    const mode = checkoutService.getCheckoutMode();
     
-    router.push('/checkout/success');
+    try {
+      await orderService.createOrder({
+        userId: user?.id || 'guest',
+        items: items,
+        total: subtotal,
+        subtotal: subtotal,
+        shipping: 0,
+        discount: 0,
+        paymentStatus: 'Pending',
+        shippingAddress: {
+          id: `addr-${Date.now()}`,
+          fullName: `${formData.firstName} ${formData.lastName}`.trim(),
+          phone: formData.phone,
+          address: formData.address,
+          landmark: formData.apartment,
+          city: formData.city,
+          state: formData.state,
+          pincode: formData.pincode,
+          type: 'home',
+          isDefault: false
+        },
+        paymentMethod: formData.paymentMethod as any
+      });
+
+      if (mode !== 'buy-now') {
+        await cartService.clearCart();
+        await refreshCart();
+      }
+      checkoutService.clearCheckout();
+      
+      router.push('/checkout/success');
+    } catch (err) {
+      alert("Failed to place order. Please try again.");
+      setIsSubmitting(false);
+    }
   };
 
   if (!isClient) return null;
+
+  if (items.length === 0) {
+    return (
+      <div className={styles.container}>
+        <div className="container" style={{ textAlign: 'center', padding: '4rem 0' }}>
+          <h2>Your checkout is empty</h2>
+          <p style={{ margin: '1rem 0' }}>Add items to your cart or use Buy Now to checkout.</p>
+          <Link href="/products">
+            <Button variant="primary">CONTINUE SHOPPING</Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -71,9 +133,11 @@ function CheckoutContent() {
             <section className={styles.section}>
               <div className={styles.sectionHeader}>
                 <h2 className={styles.sectionTitle}>Contact</h2>
-                <div className={styles.loginLink}>
-                  Have an account? <Link href="/login">Log in</Link>
-                </div>
+                {!user && (
+                  <div className={styles.loginLink}>
+                    Have an account? <Link href="/login">Log in</Link>
+                  </div>
+                )}
               </div>
               <div className={styles.formGroup}>
                 <label htmlFor="email">Email</label>
@@ -164,6 +228,20 @@ function CheckoutContent() {
 
             <section className={styles.section}>
               <h2 className={styles.sectionTitle}>Payment</h2>
+              <div className={styles.formGroup} style={{marginBottom: '1rem'}}>
+                <label htmlFor="paymentMethod">Select Payment Method</label>
+                <select 
+                  id="paymentMethod" 
+                  className={styles.input} 
+                  value={formData.paymentMethod} 
+                  onChange={handleChange}
+                  style={{ appearance: 'auto' }}
+                >
+                  <option value="card">Credit / Debit Card</option>
+                  <option value="upi">UPI</option>
+                  <option value="cod">Cash on Delivery</option>
+                </select>
+              </div>
               <div className={styles.paymentBox}>
                 <Lock size={24} style={{ color: 'var(--text-secondary)', marginBottom: '0.5rem' }} />
                 <p>This is a secure 128-bit SSL encrypted payment.</p>
@@ -191,7 +269,7 @@ function CheckoutContent() {
                     <div className={styles.itemName}>{item.name}</div>
                     <div className={styles.itemVariant}>{item.variant || item.size}</div>
                   </div>
-                  <div className={styles.itemPrice}>${(item.price * item.quantity).toFixed(2)}</div>
+                  <div className={styles.itemPrice}>₹{(item.price * item.quantity).toFixed(2)}</div>
                 </div>
               ))}
             </div>
@@ -199,15 +277,15 @@ function CheckoutContent() {
             <div className={styles.summaryTotals}>
               <div className={styles.summaryRow}>
                 <span>Subtotal</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span>₹{subtotal.toFixed(2)}</span>
               </div>
               <div className={styles.summaryRow}>
                 <span>Shipping</span>
-                <span>$0.00</span>
+                <span>₹0.00</span>
               </div>
               <div className={styles.summaryTotalRow}>
                 <span>Total</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span>₹{subtotal.toFixed(2)}</span>
               </div>
             </div>
           </div>

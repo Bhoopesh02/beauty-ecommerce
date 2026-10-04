@@ -1,18 +1,21 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '../form.module.css';
 import Button from '@/components/Button';
+import { useAuth } from '@/hooks/useAuth';
+import { authService } from '@/services/authService';
 
 export default function ProfilePage() {
+  const { user, refreshUser } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
   
   const [formData, setFormData] = useState({
-    firstName: 'Jane',
-    lastName: 'Doe',
-    email: 'jane@example.com',
-    phone: '+1 234 567 8900'
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: ''
   });
 
   const [passwordData, setPasswordData] = useState({
@@ -21,17 +24,41 @@ export default function ProfilePage() {
     confirmPassword: ''
   });
 
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        firstName: user.name.split(' ')[0] || '',
+        lastName: user.name.split(' ').slice(1).join(' ') || '',
+        email: user.email,
+        phone: user.phone || ''
+      });
+    }
+  }, [user]);
+
   const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSuccessMsg('');
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setIsSubmitting(false);
-    setSuccessMsg('Profile updated successfully.');
+    try {
+      await authService.updateProfile({
+        name: `${formData.firstName} ${formData.lastName}`.trim(),
+        phone: formData.phone
+      });
+      await refreshUser();
+      setSuccessMsg('Profile updated successfully.');
+    } catch (err: any) {
+      alert(err.message || 'Update failed');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
     setIsSubmitting(true);
     setSuccessMsg('');
     await new Promise(resolve => setTimeout(resolve, 1000));
@@ -66,6 +93,7 @@ export default function ProfilePage() {
                 value={formData.firstName}
                 onChange={(e) => setFormData({...formData, firstName: e.target.value})}
                 disabled={isSubmitting}
+                required
               />
             </div>
             <div className={styles.formGroup}>
@@ -125,6 +153,7 @@ export default function ProfilePage() {
               value={passwordData.currentPassword}
               onChange={(e) => setPasswordData({...passwordData, currentPassword: e.target.value})}
               disabled={isSubmitting}
+              required
             />
           </div>
           
@@ -137,6 +166,7 @@ export default function ProfilePage() {
               value={passwordData.newPassword}
               onChange={(e) => setPasswordData({...passwordData, newPassword: e.target.value})}
               disabled={isSubmitting}
+              required
             />
           </div>
 
@@ -149,6 +179,7 @@ export default function ProfilePage() {
               value={passwordData.confirmPassword}
               onChange={(e) => setPasswordData({...passwordData, confirmPassword: e.target.value})}
               disabled={isSubmitting}
+              required
             />
           </div>
 

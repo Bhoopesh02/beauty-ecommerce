@@ -1,25 +1,34 @@
+'use client';
+
+import React, { useState, useEffect, use } from "react";
 import { notFound } from "next/navigation";
 import ProductForm from "@/components/admin/ProductForm";
-import { products } from "@/data/products";
+import { productService } from "@/services/productService";
+import { Product } from "@/types";
 
-export default function EditProductPage({ params }: { params: { id: string } }) {
-  const product = products.find(p => p.id === params.id);
-  
-  if (!product) {
-    notFound();
+export default function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    productService.getProductById(id).then(p => {
+      setProduct(p || null);
+      setLoading(false);
+    });
+  }, [id]);
+
+  if (loading) {
+    return <div style={{padding: '100px 0', textAlign: 'center'}}>Loading product...</div>;
   }
 
-  // Map the frontend mock product format to the form format
-  const initialData = {
-    ...product,
-    stock: 50, // mock stock
-    sku: `SKU-${product.id}`,
-    comparePrice: product.price * 1.2, // mock compare price
-  };
+  if (!product) {
+    return notFound();
+  }
 
   return (
     <div>
-      <ProductForm initialData={initialData} />
+      <ProductForm initialData={product} />
     </div>
   );
 }

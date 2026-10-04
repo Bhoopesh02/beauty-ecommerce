@@ -1,18 +1,18 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import ProductCard from "@/components/ProductCard";
 import Button from "@/components/Button";
-import { products } from "@/data/products";
-
-// Derive filter options from data
-const categories = Array.from(new Set(products.map(p => p.category).filter(Boolean)));
-const types = Array.from(new Set(products.map(p => p.type).filter(Boolean)));
+import { productService } from "@/services/productService";
+import { Product } from "@/types";
 
 export default function ShopPage() {
   const router = useRouter();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [types, setTypes] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
@@ -22,15 +22,23 @@ export default function ShopPage() {
   
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
+  useEffect(() => {
+    productService.getProducts().then(fetchedProducts => {
+      setProducts(fetchedProducts);
+      setCategories(Array.from(new Set(fetchedProducts.map(p => p.category).filter(Boolean))));
+      setTypes(Array.from(new Set(fetchedProducts.map(p => p.productType || p.type || "").filter(Boolean))));
+    });
+  }, []);
+
   // Filter and sort products
   const filteredProducts = useMemo(() => {
-    let result = products;
+    let result = products.filter(p => p.active);
 
     if (searchQuery) {
       const lowerQuery = searchQuery.toLowerCase();
       result = result.filter(p => 
         p.name.toLowerCase().includes(lowerQuery) || 
-        p.type?.toLowerCase().includes(lowerQuery)
+        (p.productType || p.type || "").toLowerCase().includes(lowerQuery)
       );
     }
 
@@ -39,7 +47,7 @@ export default function ShopPage() {
     }
 
     if (selectedTypes.length > 0) {
-      result = result.filter(p => p.type && selectedTypes.includes(p.type));
+      result = result.filter(p => (p.productType || p.type) && selectedTypes.includes(p.productType || p.type || ""));
     }
 
     if (minPrice) {
@@ -72,7 +80,7 @@ export default function ShopPage() {
           return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
       }
     });
-  }, [searchQuery, selectedCategories, selectedTypes, minPrice, maxPrice, sortOption]);
+  }, [products, searchQuery, selectedCategories, selectedTypes, minPrice, maxPrice, sortOption]);
 
   const handleCheckboxChange = (
     setter: React.Dispatch<React.SetStateAction<string[]>>, 

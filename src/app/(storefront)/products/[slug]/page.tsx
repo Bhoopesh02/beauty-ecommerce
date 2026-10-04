@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, use } from "react";
+import React, { useState, useEffect, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -10,9 +10,14 @@ import Button from "@/components/Button";
 import ProductCard from "@/components/ProductCard";
 import SectionHeading from "@/components/SectionHeading";
 import ProductReviews from "@/components/ProductReviews";
-import { products } from "@/data/products";
+import { productService } from "@/services/productService";
+import { cartService } from "@/services/cartService";
+import { checkoutService } from "@/services/checkoutService";
+import { useCart } from "@/hooks/useCart";
+import { useWishlist } from "@/hooks/useWishlist";
+import { wishlistService } from "@/services/wishlistService";
+import { Product, ProductVariant } from "@/types";
 
-// Using Lucide icons or raw SVGs for standard icons
 const StarIcon = ({ filled = true }: { filled?: boolean }) => (
   <svg
     width="16"
@@ -49,7 +54,6 @@ const ChevronDownIcon = ({ isOpen }: { isOpen?: boolean }) => (
 
 const AccordionItem = ({ title, children, defaultOpen = false }: any) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-
   return (
     <div className={styles.accordionItem}>
       <button
@@ -76,118 +80,148 @@ const AccordionItem = ({ title, children, defaultOpen = false }: any) => {
 export default function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const router = useRouter();
   const { slug } = use(params);
+  
+  const [product, setProduct] = useState<Product | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
   const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState("50ml");
-  // For prototyping, we'll use a placeholder array of images if product has no multiple images
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null);
   const [activeImage, setActiveImage] = useState(0);
+  
+  const { refreshCart } = useCart();
+  const { isInWishlist, refreshWishlist } = useWishlist();
 
-  const product = products.find((p) => p.slug === slug);
+  useEffect(() => {
+    productService.getProductBySlug(slug).then(p => {
+      if (!p) {
+        setError(true);
+      } else {
+        setProduct(p);
+        if (p.variants && p.variants.length > 0) {
+          setSelectedVariant(p.variants[0]);
+        }
+        productService.getProducts().then(all => {
+          let related = all.filter(rp => rp.id !== p.id && rp.category === p.category);
+          if (related.length === 0) related = all.filter(rp => rp.id !== p.id);
+          setRelatedProducts(related.slice(0, 4));
+        });
+      }
+      setLoading(false);
+    });
+  }, [slug]);
 
-  if (!product) {
-    notFound();
-  }
+  if (loading) return <div className={styles.main}><div className="container" style={{padding:"100px 0", textAlign:"center"}}>Loading product...</div></div>;
+  if (error || !product) return notFound();
 
-  // Get some related products (same category or just others)
-  const relatedProducts = products
-    .filter((p) => p.id !== product.id && p.category === product.category)
-    .slice(0, 4);
+  const isWished = isInWishlist(product.id);
+  
+  const currentPrice = selectedVariant ? selectedVariant.price : product.price;
+  const currentStock = selectedVariant ? selectedVariant.stock : product.stock;
+  const outOfStock = currentStock <= 0;
+
+  const images = product.images?.length > 0 ? product.images : [product.image || ""];
+
+  const handleAddToCart = async () => {
+    if (outOfStock) return;
     
-  if (relatedProducts.length === 0) {
-    relatedProducts.push(...products.filter((p) => p.id !== product.id).slice(0, 4));
-  }
-
-  const sizes = ["30ml", "50ml", "100ml"];
-  // Mock multiple images for gallery
-  const images = [
-    product.image,
-    "/images/placeholder-2.jpg",
-    "/images/placeholder-3.jpg",
-    "/images/placeholder-4.jpg",
-  ];
-
-  const handleAddToCart = () => {
-    const item = {
-      id: product.id,
+    await cartService.addToCart({
+      productId: product.id,
+      variantId: selectedVariant?.id,
       name: product.name,
-      price: product.price,
-      variant: selectedSize,
+      price: currentPrice,
       quantity: quantity,
-      image: product.image
-    };
-    const cart = JSON.parse(localStorage.getItem('derrume_cart') || '[]');
-    const existing = cart.find((i: any) => i.id === item.id && i.variant === item.variant);
-    if (existing) {
-      existing.quantity += item.quantity;
-    } else {
-      cart.push(item);
-    }
-    localStorage.setItem('derrume_cart', JSON.stringify(cart));
-    alert('Added to your bag');
+      image: images[0],
+      size: selectedVariant?.size
+    });
+    
+    await refreshCart();
+    
+    const toast = document.createElement("div");
+    toast.style.position = "fixed";
+    toast.style.bottom = "20px";
+    toast.style.right = "20px";
+    toast.style.background = "#333";
+    toast.style.color = "#fff";
+    toast.style.padding = "12px 24px";
+    toast.style.borderRadius = "4px";
+    toast.style.zIndex = "9999";
+    toast.innerText = "Added to your bag";
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
   };
 
   const handleBuyNow = () => {
-    const item = {
+    if (outOfStock) return;
+    
+    checkoutService.setCheckoutItems([{
       productId: product.id,
+      variantId: selectedVariant?.id,
       name: product.name,
-      price: product.price,
-      size: selectedSize,
+      price: currentPrice,
+      size: selectedVariant?.size,
       quantity: quantity,
-      image: product.image
-    };
-    localStorage.setItem('derrume_buynow', JSON.stringify(item));
-    router.push('/checkout?mode=buy-now');
+      image: images[0]
+    }], "buy-now");
+    
+    router.push('/checkout');
+  };
+
+  const handleWishlist = async () => {
+    await wishlistService.toggleWishlist(product.id);
+    await refreshWishlist();
+  };
+
+  const increaseQty = () => {
+    if (quantity < currentStock) setQuantity(q => q + 1);
+  };
+  
+  const decreaseQty = () => {
+    if (quantity > 1) setQuantity(q => q - 1);
   };
 
   return (
     <main className={styles.main}>
       <div className={`container ${styles.productContainer}`}>
-        {/* Breadcrumb */}
         <nav className={styles.breadcrumb} aria-label="Breadcrumb">
           <Link href="/">Home</Link>
           <span className={styles.separator}>/</span>
           <Link href="/products">Products</Link>
           <span className={styles.separator}>/</span>
-          <Link href={`/category/${product.category?.toLowerCase().replace(" ", "-")}`}>
-            {product.category}
-          </Link>
-          <span className={styles.separator}>/</span>
           <span className={styles.current}>{product.name}</span>
         </nav>
 
         <div className={styles.productLayout}>
-          {/* Left Column: Image Gallery */}
           <div className={styles.galleryColumn}>
-            <div className={styles.thumbnailList}>
-              {images.map((img, index) => (
-                <button
-                  key={index}
-                  className={`${styles.thumbnailBtn} ${
-                    activeImage === index ? styles.activeThumbnail : ""
-                  }`}
-                  onClick={() => setActiveImage(index)}
-                  aria-label={`View image ${index + 1}`}
-                >
-                  <div className={styles.placeholderThumbnail}></div>
-                  {/* Using placeholder div, but setup Image for real ones */}
-                  {/* <Image src={img} alt={`Thumbnail ${index + 1}`} fill className={styles.thumbnailImg} /> */}
-                </button>
-              ))}
-            </div>
+            {images.length > 1 && (
+              <div className={styles.thumbnailList}>
+                {images.map((img, index) => (
+                  <button
+                    key={index}
+                    className={`${styles.thumbnailBtn} ${activeImage === index ? styles.activeThumbnail : ""}`}
+                    onClick={() => setActiveImage(index)}
+                    aria-label={`View image ${index + 1}`}
+                  >
+                    <Image src={img} alt={`Thumbnail ${index + 1}`} fill className={styles.thumbnailImg} style={{objectFit: 'cover'}} />
+                  </button>
+                ))}
+              </div>
+            )}
             
             <div className={styles.mainImageWrapper}>
-              <div className={styles.placeholderMainImage}></div>
-              {/* <Image 
+              <Image 
                 src={images[activeImage]} 
                 alt={product.name} 
                 fill 
                 priority
                 className={styles.mainImage}
                 sizes="(max-width: 768px) 100vw, 50vw"
-              /> */}
+                style={{objectFit: 'cover'}}
+              />
             </div>
           </div>
 
-          {/* Right Column: Product Info */}
           <div className={styles.infoColumn}>
             <div className={styles.badges}>
               {product.bestseller && (
@@ -195,8 +229,18 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
               )}
             </div>
 
-            <h1 className={styles.title}>{product.name}</h1>
-            <p className={styles.type}>{product.type}</p>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start'}}>
+              <h1 className={styles.title}>{product.name}</h1>
+              <button 
+                onClick={handleWishlist}
+                style={{background: 'none', border: 'none', cursor: 'pointer', padding: '10px'}}
+                aria-label="Wishlist"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill={isWished ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+              </button>
+            </div>
+            
+            <p className={styles.type}>{product.productType || product.type}</p>
 
             <div className={styles.rating}>
               {(product.reviewCount || 0) > 0 ? (
@@ -211,134 +255,126 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                   <a href="#reviews" className={styles.reviewCount} style={{ cursor: 'pointer', textDecoration: 'underline' }}>({product.averageRating} | {product.reviewCount} Reviews)</a>
                 </>
               ) : (
-                <a href="#reviews" className={styles.reviewCount} style={{ cursor: 'pointer', textDecoration: 'underline', color: 'var(--brand-blush)' }}>No reviews yet</a>
+                <span className={styles.reviewCount}>No reviews yet</span>
               )}
             </div>
 
-            <p className={styles.price}>₹{product.price}</p>
+            <p className={styles.price}>₹{currentPrice}</p>
 
             <p className={styles.description}>
-              [Product Description] Our {product.name.toLowerCase()} is crafted with care using authentic organic ingredients. It specifically addresses {product.concerns?.join(" and ").toLowerCase()} to reveal your natural radiance.
+              {product.description}
             </p>
 
-            <div className={styles.selectorGroup}>
-              <h3 className={styles.selectorLabel}>Size</h3>
-              <div className={styles.sizeOptions}>
-                {sizes.map((size) => (
-                  <button
-                    key={size}
-                    className={`${styles.sizeBtn} ${
-                      selectedSize === size ? styles.activeSize : ""
-                    }`}
-                    onClick={() => setSelectedSize(size)}
-                  >
-                    {size}
-                  </button>
-                ))}
+            {product.variants && product.variants.length > 0 && (
+              <div className={styles.selectorGroup}>
+                <h3 className={styles.selectorLabel}>Size</h3>
+                <div className={styles.sizeOptions}>
+                  {product.variants.map((variant) => (
+                    <button
+                      key={variant.id}
+                      className={`${styles.sizeBtn} ${selectedVariant?.id === variant.id ? styles.activeSize : ""}`}
+                      onClick={() => {
+                        setSelectedVariant(variant);
+                        setQuantity(1); // reset qty on variant change
+                      }}
+                    >
+                      {variant.size}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             <div className={styles.selectorGroup}>
               <h3 className={styles.selectorLabel}>Quantity</h3>
-              <div className={styles.quantitySelector}>
-                <button
-                  className={styles.qtyBtn}
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  aria-label="Decrease quantity"
-                >
-                  -
-                </button>
-                <span className={styles.qtyValue}>{quantity}</span>
-                <button
-                  className={styles.qtyBtn}
-                  onClick={() => setQuantity(quantity + 1)}
-                  aria-label="Increase quantity"
-                >
-                  +
-                </button>
-              </div>
+              {outOfStock ? (
+                <span style={{color: 'red', fontWeight: 'bold'}}>OUT OF STOCK</span>
+              ) : (
+                <div className={styles.quantitySelector}>
+                  <button
+                    className={styles.qtyBtn}
+                    onClick={decreaseQty}
+                    aria-label="Decrease quantity"
+                    disabled={quantity <= 1}
+                  >
+                    -
+                  </button>
+                  <span className={styles.qtyValue}>{quantity}</span>
+                  <button
+                    className={styles.qtyBtn}
+                    onClick={increaseQty}
+                    aria-label="Increase quantity"
+                    disabled={quantity >= currentStock}
+                  >
+                    +
+                  </button>
+                </div>
+              )}
             </div>
 
             <div className={styles.actionButtons}>
-              <Button variant="outline" className={styles.addBtn} onClick={handleAddToCart}>
-                ADD TO CART
+              <Button variant="outline" className={styles.addBtn} onClick={handleAddToCart} disabled={outOfStock}>
+                {outOfStock ? "OUT OF STOCK" : "ADD TO CART"}
               </Button>
-              <Button variant="primary" className={styles.buyBtn} onClick={handleBuyNow}>
-                BUY IT NOW
+              <Button variant="primary" className={styles.buyBtn} onClick={handleBuyNow} disabled={outOfStock}>
+                {outOfStock ? "UNAVAILABLE" : "BUY IT NOW"}
               </Button>
             </div>
 
-            {/* Accordion Information */}
             <div className={styles.accordionContainer}>
-              <AccordionItem title="Ingredients" defaultOpen={true}>
-                <p>
-                  [Ingredients List] Please refer to product packaging for the most up to date list of ingredients.
-                </p>
-                <ul className={styles.ingredientList}>
-                  <li>Organic Key Ingredient 1</li>
-                  <li>Natural Extract 2</li>
-                  <li>Essential Oil Blend</li>
-                </ul>
-              </AccordionItem>
+              {product.ingredients && (
+                <AccordionItem title="Ingredients" defaultOpen={true}>
+                  <p>{product.ingredients}</p>
+                </AccordionItem>
+              )}
               
-              <AccordionItem title="Benefits">
-                <ul className={styles.benefitsList}>
-                  <li>Helps with {product.concerns?.[0]?.toLowerCase() || "skin health"}</li>
-                  <li>Provides long-lasting nourishment</li>
-                  <li>100% organic and cruelty-free</li>
-                </ul>
-              </AccordionItem>
+              {product.benefits && (
+                <AccordionItem title="Benefits">
+                  <p>{product.benefits}</p>
+                </AccordionItem>
+              )}
 
-              <AccordionItem title="How to Use">
-                <ol className={styles.usageList}>
-                  <li>Apply a small amount to the palm of your hand.</li>
-                  <li>Gently massage onto the desired area.</li>
-                  <li>Use twice daily for best results.</li>
-                </ol>
-              </AccordionItem>
-              
-              <AccordionItem title="FAQs">
-                <div className={styles.faqItem}>
-                  <strong>Is this suitable for all types?</strong>
-                  <p>Yes, our formulation is gentle and suitable for daily use on all profiles.</p>
-                </div>
-                <div className={styles.faqItem}>
-                  <strong>Is this cruelty-free?</strong>
-                  <p>Absolutely. We never test on animals.</p>
-                </div>
-              </AccordionItem>
+              {product.howToUse && (
+                <AccordionItem title="How to Use">
+                  <p>{product.howToUse}</p>
+                </AccordionItem>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Customer Reviews */}
       <ProductReviews productId={product.id} />
 
-      {/* Related Products */}
-      <section className={`section-spacing ${styles.relatedSection}`}>
-        <div className="container">
-          <SectionHeading 
-            title="You May Also Like" 
-            subtitle="Perfect additions to your routine" 
-          />
-          <div className={styles.relatedGrid}>
-            {relatedProducts.map((p) => (
-              <ProductCard key={p.id} product={p} />
-            ))}
+      {relatedProducts.length > 0 && (
+        <section className={`section-spacing ${styles.relatedSection}`}>
+          <div className="container">
+            <SectionHeading 
+              title="You May Also Like" 
+              subtitle="Perfect additions to your routine" 
+            />
+            <div className={styles.relatedGrid}>
+              {relatedProducts.map((p) => (
+                <ProductCard key={p.id} product={p} />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* Mobile Sticky Add to Bag Bar */}
       <div className={styles.mobileStickyBar}>
         <div className={styles.stickyBarInfo}>
           <p className={styles.stickyBarTitle}>{product.name}</p>
-          <p className={styles.stickyBarPrice}>₹{product.price}</p>
+          <p className={styles.stickyBarPrice}>₹{currentPrice}</p>
         </div>
-        <Button variant="primary" className={styles.stickyBarBtn} onClick={handleAddToCart}>
-          ADD TO BAG
-        </Button>
+        <div style={{display: 'flex', gap: '8px', flex: 1, minWidth: '50%'}}>
+          <Button variant="outline" className={styles.stickyBarBtn} onClick={handleAddToCart} disabled={outOfStock} style={{flex: 1, padding: '0'}}>
+            ADD
+          </Button>
+          <Button variant="primary" className={styles.stickyBarBtn} onClick={handleBuyNow} disabled={outOfStock} style={{flex: 1, padding: '0'}}>
+            BUY
+          </Button>
+        </div>
       </div>
     </main>
   );

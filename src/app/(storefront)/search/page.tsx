@@ -7,7 +7,8 @@ import SectionHeading from '@/components/SectionHeading';
 import Button from '@/components/Button';
 import ProductCard from '@/components/ProductCard';
 
-import { products as allProducts } from '@/data/products';
+import { productService } from '@/services/productService';
+import { Product } from '@/types';
 
 function SearchContent() {
   const searchParams = useSearchParams();
@@ -29,6 +30,18 @@ function SearchContent() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(initialCategories);
   const [selectedTypes, setSelectedTypes] = useState<string[]>(initialTypes);
   const [priceRange, setPriceRange] = useState<string>(initialPriceRange);
+  
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [types, setTypes] = useState<string[]>([]);
+
+  useEffect(() => {
+    productService.getProducts().then(fetchedProducts => {
+      setAllProducts(fetchedProducts);
+      setCategories(Array.from(new Set(fetchedProducts.map(p => p.category).filter(Boolean))));
+      setTypes(Array.from(new Set(fetchedProducts.map(p => p.productType || p.type || "").filter(Boolean))));
+    });
+  }, []);
 
   // Sync state with URL
   useEffect(() => {
@@ -38,10 +51,6 @@ function SearchContent() {
     setSelectedTypes(initialTypes);
     setPriceRange(initialPriceRange);
   }, [initialQuery, initialSort, initialCategories, initialTypes, initialPriceRange, searchParams]);
-
-  // Derived unique filter options from data
-  const categories = useMemo(() => Array.from(new Set(allProducts.map(p => p.category))), []);
-  const types = useMemo(() => Array.from(new Set(allProducts.map(p => p.type))), []);
 
   const updateUrl = (
     newQuery: string, 
@@ -98,14 +107,14 @@ function SearchContent() {
 
   // Filter & Sort Logic
   const filteredAndSortedProducts = useMemo(() => {
-    let result = allProducts;
+    let result = allProducts.filter(p => p.active);
     
     // 1. Search Query
     if (initialQuery) {
       const q = initialQuery.toLowerCase();
       result = result.filter(p => 
         p.name.toLowerCase().includes(q) || 
-        p.type.toLowerCase().includes(q) ||
+        (p.productType || p.type || "").toLowerCase().includes(q) ||
         p.category.toLowerCase().includes(q) ||
         p.concerns?.some(c => c.toLowerCase().includes(q))
       );
@@ -116,7 +125,7 @@ function SearchContent() {
       result = result.filter(p => selectedCategories.includes(p.category));
     }
     if (selectedTypes.length > 0) {
-      result = result.filter(p => selectedTypes.includes(p.type));
+      result = result.filter(p => selectedTypes.includes(p.productType || p.type || ""));
     }
     if (priceRange) {
       if (priceRange === 'under-500') {
@@ -147,7 +156,7 @@ function SearchContent() {
     }
     
     return result;
-  }, [initialQuery, selectedCategories, selectedTypes, initialSort]);
+  }, [allProducts, initialQuery, selectedCategories, selectedTypes, priceRange, initialSort]);
 
   const activeFilterCount = selectedCategories.length + selectedTypes.length + (priceRange ? 1 : 0);
 
@@ -312,7 +321,7 @@ function SearchContent() {
               <p>We couldn&apos;t find any products matching your current search and filters.</p>
               <div className={styles.emptyActions}>
                 {(activeFilterCount > 0 || initialQuery) && (
-                  <Button variant="outline" onClick={() => updateUrl('', 'featured', [], [])}>CLEAR ALL</Button>
+                  <Button variant="outline" onClick={() => updateUrl('', 'featured', [], [], '')}>CLEAR ALL</Button>
                 )}
                 <Button variant="primary" onClick={() => router.push('/products')}>BROWSE ALL</Button>
               </div>

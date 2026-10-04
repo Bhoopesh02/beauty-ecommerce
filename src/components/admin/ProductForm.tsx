@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./ProductForm.module.css";
+import { productService } from "@/services/productService";
 
 interface ProductFormProps {
   initialData?: any;
@@ -17,7 +18,7 @@ export default function ProductForm({ initialData }: ProductFormProps) {
   const [formData, setFormData] = useState({
     name: initialData?.name || "",
     category: initialData?.category || "",
-    type: initialData?.type || "",
+    type: initialData?.type || initialData?.productType || "",
     description: initialData?.description || "",
     price: initialData?.price || "",
     comparePrice: initialData?.comparePrice || "",
@@ -48,11 +49,38 @@ export default function ProductForm({ initialData }: ProductFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Mock save delay
-    setTimeout(() => {
-      setLoading(false);
+    
+    const productPayload: any = {
+      name: formData.name,
+      category: formData.category,
+      productType: formData.type,
+      type: formData.type,
+      description: formData.description,
+      price: Number(formData.price),
+      stock: Number(formData.stock),
+      images: images,
+      image: images[0] || "",
+      ingredients: formData.ingredients,
+      benefits: formData.benefits,
+      howToUse: formData.howToUse,
+      featured: formData.featured,
+      bestseller: formData.bestseller,
+      slug: initialData?.slug || formData.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+    };
+
+    try {
+      if (initialData?.id) {
+        await productService.updateProduct(initialData.id, productPayload);
+      } else {
+        productPayload.id = `PROD-${Date.now()}`;
+        await productService.addProduct(productPayload);
+      }
       router.push("/admin/products");
-    }, 800);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to save product.");
+      setLoading(false);
+    }
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -124,6 +152,8 @@ export default function ProductForm({ initialData }: ProductFormProps) {
                   <option value="Skin Care">Skin Care</option>
                   <option value="Hair Care">Hair Care</option>
                   <option value="Body Care">Body Care</option>
+                  <option value="Makeup">Makeup</option>
+                  <option value="Fragrance">Fragrance</option>
                 </select>
               </div>
               <div className={styles.formGroup}>

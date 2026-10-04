@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Cinzel_Decorative } from "next/font/google";
 import "./globals.css";
+import { AppProviders } from "@/context/AppProviders";
 
 
 const inter = Inter({
@@ -27,7 +28,9 @@ export default function RootLayout({
   return (
     <html lang="en" data-scroll-behavior="smooth" className={`${inter.variable} ${cinzel.variable}`}>
       <body>
-        {children}
+        <AppProviders>
+          {children}
+        </AppProviders>
       </body>
     </html>
   );

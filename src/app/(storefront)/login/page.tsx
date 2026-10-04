@@ -1,12 +1,17 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import AuthLayout from '@/components/AuthLayout';
 import Button from '@/components/Button';
 import styles from '@/components/AuthForm.module.css';
+import { useAuth } from '@/hooks/useAuth';
 
-export default function LoginPage() {
+function LoginForm() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState<{ email?: string; password?: string; general?: string }>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -26,24 +31,19 @@ export default function LoginPage() {
     setIsLoading(true);
     setErrors({});
     
-    // Simulate auth
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Fake error for demo
-    if (formData.email === 'error@test.com') {
-      setErrors({ general: 'Invalid email or password' });
+    try {
+      await login(formData.email, formData.password);
+      const returnUrl = searchParams.get('returnUrl') || '/account';
+      router.push(returnUrl);
+    } catch (err: any) {
+      setErrors({ general: err.message || 'Invalid email or password' });
+    } finally {
       setIsLoading(false);
-      return;
     }
-
-    // Success - redirect would happen here
-    window.location.href = '/account';
   };
 
   return (
-    <AuthLayout>
-      <h1 className={styles.heading}>WELCOME BACK</h1>
-      
+    <>
       {errors.general && (
         <div className={styles.errorText} style={{ textAlign: 'center', marginBottom: '1rem', marginTop: '-1rem' }}>
           {errors.general}
@@ -93,9 +93,21 @@ export default function LoginPage() {
           {isLoading ? 'LOGGING IN...' : 'LOGIN'}
         </Button>
       </form>
+    </>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <AuthLayout>
+      <h1 className={styles.heading}>WELCOME BACK</h1>
+      
+      <Suspense fallback={<div style={{ textAlign: 'center', padding: '2rem' }}>Loading form...</div>}>
+        <LoginForm />
+      </Suspense>
 
       <div className={styles.footer}>
-        Don&apos;t have an account?
+        Don't have an account?
         <Link href="/register" className={styles.footerLink}>
           CREATE ACCOUNT
         </Link>

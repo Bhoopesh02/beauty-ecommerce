@@ -1,14 +1,16 @@
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
 import Button from "@/components/Button";
 import SectionHeading from "@/components/SectionHeading";
 import ProductCard from "@/components/ProductCard";
-import { products } from "@/data/products";
+import { defaultProducts } from "@/data/products";
 
 export default function Home() {
-  const featuredProducts = products.filter(p => p.featured).slice(0, 4);
-  const bestSellers = products.filter(p => p.bestseller).slice(0, 4);
+  const featuredProducts = defaultProducts.filter(p => p.featured).slice(0, 4);
+  const bestSellers = defaultProducts.filter(p => p.bestseller).slice(0, 4);
 
   return (
     <div className={styles.page}>
@@ -22,8 +24,8 @@ export default function Home() {
             <h1 className="heading-hero">NATURE,<br />BOTTLED<br />BEAUTIFULLY.</h1>
             <p className={styles.heroSubtitle}>100% Natural. Homemade. Pure.</p>
             <div className={styles.heroActions}>
-              <Button>SHOP THE COLLECTION</Button>
-              <Button variant="outline">OUR STORY</Button>
+              <Button href="/products">SHOP THE COLLECTION</Button>
+              <Button href="/about" variant="outline">OUR STORY</Button>
             </div>
           </div>
         </div>
@@ -105,7 +107,7 @@ export default function Home() {
         <SectionHeading title="WHAT DOES YOUR SKIN NEED?" />
         <div className={styles.concernGrid}>
           {['HYDRATION', 'GLOW', 'CLEANSING', 'NOURISHMENT'].map((concern) => (
-            <Link key={concern} href={`/shop?concern=${concern.toLowerCase()}`} className={styles.concernCard}>
+            <Link key={concern} href={`/products?concern=${concern.toLowerCase()}`} className={styles.concernCard}>
               {concern}
             </Link>
           ))}
@@ -120,7 +122,7 @@ export default function Home() {
             <p className={styles.storyText}>
               DERRUME is built around a simple belief: skincare should feel pure, personal and uncomplicated.
             </p>
-            <Button variant="outline">READ OUR STORY</Button>
+            <Button href="/about" variant="outline">READ OUR STORY</Button>
           </div>
           <div className={styles.storyImagePlaceholder}>
             <div className={styles.storyOrbit}></div>
@@ -205,7 +207,9 @@ export default function Home() {
           ))}
         </div>
         <div className={styles.instaAction}>
-          <Button variant="outline">FOLLOW @derrume</Button>
+          <Button href="https://instagram.com" variant="outline" style={{ display: 'inline-flex', alignItems: 'center' }} target="_blank">
+            FOLLOW @derrume
+          </Button>
         </div>
       </section>
 
@@ -216,7 +220,13 @@ export default function Home() {
             title="A LITTLE MORE NATURE, IN YOUR INBOX." 
             subtitle="New rituals. New products. Botanical notes." 
           />
-          <form className={styles.newsletterForm}>
+          <form className={styles.newsletterForm} onSubmit={(e) => {
+            e.preventDefault();
+            const form = e.target as HTMLFormElement;
+            const btn = form.querySelector('button');
+            if (btn) btn.textContent = 'JOINED!';
+            setTimeout(() => { if (btn) btn.textContent = 'JOIN'; form.reset(); }, 3000);
+          }}>
             <input type="email" placeholder="Enter your email" className={styles.newsletterInput} required />
             <Button type="submit">JOIN</Button>
           </form>

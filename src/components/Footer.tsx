@@ -12,10 +12,10 @@ export default function Footer() {
 
         <div className={styles.linkGroup}>
           <h3 className={styles.heading}>SHOP</h3>
-          <Link href="/shop" className={styles.link}>All Products</Link>
-          <Link href="/category/skin-care" className={styles.link}>Skin Care</Link>
-          <Link href="/category/hair-care" className={styles.link}>Hair Care</Link>
-          <Link href="/category/combos" className={styles.link}>Combos</Link>
+          <Link href="/products" className={styles.link}>All Products</Link>
+          <Link href="/search?category=Skin+Care" className={styles.link}>Skin Care</Link>
+          <Link href="/search?category=Hair+Care" className={styles.link}>Hair Care</Link>
+          <Link href="/search?category=Body+Care" className={styles.link}>Body Care</Link>
         </div>
 
         <div className={styles.linkGroup}>
@@ -34,9 +34,9 @@ export default function Footer() {
 
         <div className={styles.linkGroup}>
           <h3 className={styles.heading}>CONNECT</h3>
-          <a href="#" className={styles.link}>Instagram</a>
-          <a href="#" className={styles.link}>WhatsApp</a>
-          <a href="#" className={styles.link}>Email</a>
+          <a href="https://instagram.com" target="_blank" rel="noreferrer" className={styles.link}>Instagram</a>
+          <a href="https://whatsapp.com" target="_blank" rel="noreferrer" className={styles.link}>WhatsApp</a>
+          <a href="mailto:contact@derrume.com" className={styles.link}>Email</a>
         </div>
       </div>
 

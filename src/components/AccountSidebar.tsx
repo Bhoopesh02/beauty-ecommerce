@@ -2,9 +2,10 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import styles from './AccountSidebar.module.css';
 import { LogOut } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 
 const navItems = [
   { label: 'Dashboard', href: '/account' },
@@ -16,6 +17,13 @@ const navItems = [
 
 export default function AccountSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    router.push('/');
+  };
 
   return (
     <aside className={styles.sidebar}>
@@ -35,9 +43,7 @@ export default function AccountSidebar() {
         })}
         <button 
           className={`${styles.link} ${styles.logout}`}
-          onClick={() => {
-            window.location.href = '/login';
-          }}
+          onClick={handleLogout}
         >
           <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <LogOut size={16} /> Logout

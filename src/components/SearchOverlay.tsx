@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./SearchOverlay.module.css";
-import { products } from "@/data/products";
+import { productService } from "@/services/productService";
+import { Product } from "@/types";
 import ProductCard from "./ProductCard";
 
 interface SearchOverlayProps {
@@ -16,8 +17,13 @@ interface SearchOverlayProps {
 export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   const [query, setQuery] = useState("");
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    productService.getProducts().then(setProducts);
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -62,13 +68,14 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
     onClose();
   };
 
-  const recommendedProducts = products.filter(p => p.featured).slice(0, 4);
+  const recommendedProducts = products.filter(p => p.featured && p.active).slice(0, 4);
 
   const searchResults = query.trim()
     ? products.filter(p => 
-        p.name.toLowerCase().includes(query.toLowerCase()) || 
-        p.type.toLowerCase().includes(query.toLowerCase()) ||
-        p.category.toLowerCase().includes(query.toLowerCase())
+        p.active &&
+        (p.name.toLowerCase().includes(query.toLowerCase()) || 
+        (p.productType || p.type || "").toLowerCase().includes(query.toLowerCase()) ||
+        p.category.toLowerCase().includes(query.toLowerCase()))
       ).slice(0, 5)
     : [];
 
@@ -161,16 +168,17 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                         <Link href={`/products/${product.slug}`} className={styles.suggestionItem} onClick={onClose}>
                           <div className={styles.suggestionImage}>
                             <Image 
-                              src={product.image} 
+                              src={product.images?.[0] || product.image || ""} 
                               alt={product.name}
                               fill
                               sizes="60px"
                               className={styles.image}
+                              style={{objectFit: 'cover'}}
                             />
                           </div>
                           <div className={styles.suggestionInfo}>
                             <p className={styles.suggestionName}>{product.name}</p>
-                            <p className={styles.suggestionType}>{product.type || product.category}</p>
+                            <p className={styles.suggestionType}>{product.productType || product.type || product.category}</p>
                           </div>
                           <div className={styles.suggestionPrice}>
                             ₹{product.price}

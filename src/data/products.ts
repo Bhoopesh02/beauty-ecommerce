@@ -1,91 +1,175 @@
-export type Product = {
-  id: string;
-  name: string;
-  type: string;
-  category: string;
-  concerns: string[];
-  price: number;
-  image: string;
-  slug: string;
-  featured: boolean;
-  bestseller: boolean;
-  /** Average star rating, e.g. 4.5 */
-  averageRating?: number;
-  /** Total number of reviews */
-  reviewCount?: number;
-};
+import { Product } from "../types";
 
-export const products: Product[] = [
+const now = new Date().toISOString();
+
+export const defaultProducts: Product[] = [
   {
     id: "1",
     name: "Hydraglow Moisturizer",
     type: "Moisturizer",
+    productType: "Moisturizer",
     category: "Skin Care",
     concerns: ["Dryness", "Dullness"],
     price: 899,
+    comparePrice: 1099,
     image: "/images/products/Hydraglow-Moisturizer.webp",
+    images: ["/images/products/Hydraglow-Moisturizer.webp"],
     slug: "hydraglow-moisturizer",
     featured: true,
     bestseller: true,
+    description: "A lightweight, deeply hydrating moisturizer that leaves your skin glowing. Enriched with hyaluronic acid and natural botanical extracts.",
+    ingredients: "Aqua, Hyaluronic Acid, Aloe Vera Extract, Glycerin, Niacinamide, Vitamin E.",
+    benefits: "Provides 24-hour hydration. Brightens dull skin. Improves skin texture and elasticity.",
+    howToUse: "Apply a small amount to clean, dry face and neck. Massage gently in upward circular motions until fully absorbed. Use morning and night.",
+    stock: 50,
+    sku: "SKU-HYDRA-001",
+    active: true,
+    variants: [
+      { id: "v-1-1", size: "50ml", price: 899, stock: 50, sku: "SKU-HYDRA-001-50" },
+      { id: "v-1-2", size: "100ml", price: 1599, stock: 30, sku: "SKU-HYDRA-001-100" }
+    ],
+    createdAt: now,
+    updatedAt: now,
+    averageRating: 4.8,
+    reviewCount: 124
   },
   {
     id: "2",
     name: "Botanical Face Wash",
     type: "Cleanser",
+    productType: "Cleanser",
     category: "Skin Care",
     concerns: ["Acne", "Oiliness"],
     price: 549,
+    comparePrice: 699,
     image: "/images/products/Botanical-Face-Wash.webp",
+    images: ["/images/products/Botanical-Face-Wash.webp"],
     slug: "botanical-face-wash",
     featured: true,
     bestseller: true,
+    description: "A gentle yet effective daily cleanser that removes impurities without stripping the skin's natural moisture barrier.",
+    ingredients: "Aqua, Neem Extract, Tea Tree Oil, Salicylic Acid (1%), Glycerin.",
+    benefits: "Deeply cleanses pores. Controls excess oil production. Helps prevent acne breakouts.",
+    howToUse: "Take a small amount and lather in wet hands. Massage gently onto the face, avoiding the eye area. Rinse thoroughly with water.",
+    stock: 120,
+    sku: "SKU-BOTFW-001",
+    active: true,
+    variants: [
+      { id: "v-2-1", size: "100ml", price: 549, stock: 120, sku: "SKU-BOTFW-001-100" }
+    ],
+    createdAt: now,
+    updatedAt: now,
+    averageRating: 4.6,
+    reviewCount: 89
   },
   {
     id: "3",
     name: "Rose Water Face Mist",
     type: "Toner",
+    productType: "Toner",
     category: "Skin Care",
     concerns: ["Dryness", "Redness"],
     price: 499,
     image: "/images/products/Rose-Water-Face-Mist.webp",
+    images: ["/images/products/Rose-Water-Face-Mist.webp"],
     slug: "rose-water-face-mist",
     featured: true,
     bestseller: false,
+    description: "A refreshing and soothing face mist made from pure distilled rose petals to instantly hydrate and calm the skin.",
+    ingredients: "100% Pure Steam Distilled Rose Water (Rosa Damascena).",
+    benefits: "Balances skin pH. Soothes redness and irritation. Instantly refreshes tired skin.",
+    howToUse: "Hold the bottle a few inches away from your face and spray evenly. Can be used as a toner after cleansing or as a refreshing mist throughout the day.",
+    stock: 80,
+    sku: "SKU-ROSE-001",
+    active: true,
+    variants: [],
+    createdAt: now,
+    updatedAt: now,
+    averageRating: 4.9,
+    reviewCount: 215
   },
   {
     id: "4",
     name: "Herbal Hair Oil",
     type: "Hair Oil",
+    productType: "Hair Oil",
     category: "Hair Care",
     concerns: ["Hair Fall", "Dandruff"],
     price: 699,
+    comparePrice: 899,
     image: "/images/products/Herbal-Hair-Oil.webp",
+    images: ["/images/products/Herbal-Hair-Oil.webp"],
     slug: "herbal-hair-oil",
     featured: true,
     bestseller: true,
+    description: "A potent blend of traditional Ayurvedic herbs infused in cold-pressed oils to nourish the scalp, promote hair growth, and reduce hair fall.",
+    ingredients: "Cold Pressed Coconut Oil, Bhringraj, Amla, Brahmi, Hibiscus, Castor Oil.",
+    benefits: "Reduces hair fall and breakage. Stimulates hair follicles for new growth. Controls dandruff and dry scalp.",
+    howToUse: "Warm the oil slightly. Massage gently into the scalp and along the length of your hair. Leave it on for at least 2 hours or overnight before washing.",
+    stock: 200,
+    sku: "SKU-HHO-001",
+    active: true,
+    variants: [
+      { id: "v-4-1", size: "200ml", price: 699, stock: 200, sku: "SKU-HHO-001-200" }
+    ],
+    createdAt: now,
+    updatedAt: now,
+    averageRating: 4.7,
+    reviewCount: 342
   },
   {
     id: "5",
     name: "Nourishing Herbal Shampoo",
     type: "Shampoo",
+    productType: "Shampoo",
     category: "Hair Care",
     concerns: ["Hair Fall", "Dry Scalp"],
     price: 749,
     image: "/images/products/NOURISHING-HERBAL-SHAMPOO.webp",
+    images: ["/images/products/NOURISHING-HERBAL-SHAMPOO.webp"],
     slug: "nourishing-herbal-shampoo",
     featured: false,
     bestseller: true,
+    description: "A sulfate-free, gentle shampoo enriched with natural herbs to cleanse the scalp while preserving natural moisture.",
+    ingredients: "Aqua, Reetha, Shikakai, Amla Extract, Aloe Vera, Mild Surfactants.",
+    benefits: "Cleanses without stripping natural oils. Strengthens hair roots. Adds natural shine and softness.",
+    howToUse: "Apply to wet hair. Massage into the scalp to create a lather. Rinse thoroughly. Follow with a conditioner.",
+    stock: 0, // OUT OF STOCK test
+    sku: "SKU-NHS-001",
+    active: true,
+    variants: [
+      { id: "v-5-1", size: "250ml", price: 749, stock: 0, sku: "SKU-NHS-001-250" }
+    ],
+    createdAt: now,
+    updatedAt: now,
+    averageRating: 4.5,
+    reviewCount: 156
   },
   {
     id: "6",
     name: "Skin & Hair Care Combo",
     type: "Combo",
-    category: "Body Care",
+    productType: "Combo",
+    category: "Combos",
     concerns: ["Overall Health"],
     price: 1899,
+    comparePrice: 2500,
     image: "/images/products/Natural-Skin-&-Hair-Care-Combo.webp",
+    images: ["/images/products/Natural-Skin-&-Hair-Care-Combo.webp"],
     slug: "skin-hair-care-combo",
     featured: false,
     bestseller: true,
+    description: "The ultimate self-care package containing our best-selling Moisturizer, Face Wash, and Herbal Hair Oil.",
+    ingredients: "See individual products for detailed ingredient lists.",
+    benefits: "A complete regimen for healthy skin and hair. Great value bundle.",
+    howToUse: "Follow instructions for individual products in the bundle.",
+    stock: 15,
+    sku: "SKU-COMBO-001",
+    active: true,
+    variants: [],
+    createdAt: now,
+    updatedAt: now,
+    averageRating: 4.9,
+    reviewCount: 45
   }
 ];

@@ -2,11 +2,15 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import AuthLayout from '@/components/AuthLayout';
 import Button from '@/components/Button';
 import styles from '@/components/AuthForm.module.css';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function RegisterPage() {
+  const router = useRouter();
+  const { registerUser } = useAuth();
   const [formData, setFormData] = useState({ 
     firstName: '',
     lastName: '',
@@ -42,12 +46,20 @@ export default function RegisterPage() {
     if (!validate()) return;
     
     setIsLoading(true);
+    setErrors({});
     
-    // Simulate auth
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Success - redirect would happen here
-    window.location.href = '/account';
+    try {
+      await registerUser(
+        `${formData.firstName} ${formData.lastName}`.trim(),
+        formData.email,
+        formData.password
+      );
+      router.push('/account');
+    } catch (err: any) {
+      setErrors({ general: err.message || 'Registration failed' });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,6 +74,12 @@ export default function RegisterPage() {
     <AuthLayout>
       <h1 className={styles.heading}>CREATE YOUR ACCOUNT</h1>
       
+      {errors.general && (
+        <div className={styles.errorText} style={{ textAlign: 'center', marginBottom: '1rem', marginTop: '-1rem' }}>
+          {errors.general}
+        </div>
+      )}
+
       <form className={styles.form} onSubmit={handleSubmit}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
           <div className={styles.formGroup}>
