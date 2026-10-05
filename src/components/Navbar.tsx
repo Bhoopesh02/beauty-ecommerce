@@ -41,6 +41,7 @@ export default function Navbar() {
         <nav className={styles.desktopNav}>
           <Link href="/" className={styles.navLink}>Home</Link>
           <Link href="/products" className={styles.navLink}>Products</Link>
+          <Link href="/track-order" className={styles.navLink}>Track Order</Link>
           <Link href="/about" className={styles.navLink}>About Us</Link>
           <Link href="/contact" className={styles.navLink}>Contact</Link>
         </nav>
@@ -88,6 +89,7 @@ export default function Navbar() {
           <nav className={styles.mobileNavLinks}>
             <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
             <Link href="/products" onClick={() => setIsMobileMenuOpen(false)}>Products</Link>
+            <Link href="/track-order" onClick={() => setIsMobileMenuOpen(false)}>Track Order</Link>
             <Link href="/about" onClick={() => setIsMobileMenuOpen(false)}>About Us</Link>
             <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
             <hr className={styles.mobileMenuDivider} />

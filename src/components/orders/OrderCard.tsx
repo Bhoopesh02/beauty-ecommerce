@@ -146,14 +146,23 @@ export default function OrderCard({ order, onTrackOrder }: OrderCardProps) {
           <Link href={`/account/orders/${order.id}`} className={styles.viewBtn}>
             VIEW ORDER
           </Link>
-          {canTrack && onTrackOrder && (
-            <button
-              type="button"
-              className={styles.trackBtn}
-              onClick={() => onTrackOrder(order)}
-            >
-              TRACK ORDER
-            </button>
+          {canTrack && (
+            onTrackOrder ? (
+              <button
+                type="button"
+                className={styles.trackBtn}
+                onClick={() => onTrackOrder(order)}
+              >
+                TRACK ORDER
+              </button>
+            ) : (
+              <Link
+                href={`/track-order?orderId=${encodeURIComponent(order.id)}`}
+                className={styles.trackBtn}
+              >
+                TRACK ORDER
+              </Link>
+            )
           )}
         </div>
       </div>

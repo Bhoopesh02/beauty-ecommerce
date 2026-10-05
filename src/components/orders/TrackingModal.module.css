@@ -177,3 +177,26 @@
   line-height: 1.4;
   font-style: italic;
 }
+
+.modalFooter {
+  margin-top: 1.25rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.fullPageBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--brand-violet);
+  transition: color 0.2s ease;
+}
+
+.fullPageBtn:hover {
+  color: #241c2b;
+  text-decoration: underline;
+}

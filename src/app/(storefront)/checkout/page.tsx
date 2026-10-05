@@ -68,7 +68,7 @@ function CheckoutContent() {
     const mode = checkoutService.getCheckoutMode();
     
     try {
-      await orderService.createOrder({
+      const created = await orderService.createOrder({
         userId: user?.id || 'guest',
         items: items,
         total: subtotal,
@@ -97,7 +97,7 @@ function CheckoutContent() {
       }
       checkoutService.clearCheckout();
       
-      router.push('/checkout/success');
+      router.push(`/checkout/success?orderId=${encodeURIComponent(created.id)}`);
     } catch (err) {
       alert("Failed to place order. Please try again.");
       setIsSubmitting(false);

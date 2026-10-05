@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Copy, Check } from 'lucide-react';
+import { X, Copy, Check, ExternalLink } from 'lucide-react';
 import { Order } from '@/types';
 import { formatDate } from '@/utils/orderUtils';
 import styles from './TrackingModal.module.css';
@@ -122,6 +123,16 @@ export default function TrackingModal({ order, isOpen, onClose }: TrackingModalP
 
           <div className={styles.disclaimer}>
             Status information is synchronized via DERRUME Priority Logistics. Real-time courier API integrations can be connected to this tracking interface.
+          </div>
+
+          <div className={styles.modalFooter}>
+            <Link
+              href={`/track-order?orderId=${encodeURIComponent(order.id)}`}
+              className={styles.fullPageBtn}
+              onClick={onClose}
+            >
+              Open Full Tracking Page <ExternalLink size={13} />
+            </Link>
           </div>
         </motion.div>
       </div>

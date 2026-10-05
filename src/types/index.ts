@@ -128,3 +128,9 @@ export type Order = {
   returnRequestedAt?: string;
 };
 
+export interface TrackOrderResult {
+  success: boolean;
+  order?: Order;
+  error?: string;
+}
+

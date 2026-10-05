@@ -11,6 +11,7 @@ const navItems = [
   { label: 'Dashboard', href: '/account' },
   { label: 'Profile', href: '/account/profile' },
   { label: 'Orders', href: '/account/orders' },
+  { label: 'Track Shipment', href: '/track-order' },
   { label: 'Addresses', href: '/account/addresses' },
   { label: 'Wishlist', href: '/wishlist' },
 ];
