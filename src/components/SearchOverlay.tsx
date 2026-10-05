@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import styles from "./SearchOverlay.module.css";
 import { productService } from "@/services/productService";
 import { Product } from "@/types";
@@ -44,8 +45,6 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
     };
   }, [isOpen]);
 
-  if (!isOpen) return null;
-
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
@@ -80,9 +79,24 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
     : [];
 
   return (
-    <div className={styles.overlay} role="dialog" aria-modal="true" aria-label="Search products">
-      <div className={styles.container}>
-        <div className={styles.header}>
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div 
+          className={styles.overlay} 
+          role="dialog" aria-modal="true" aria-label="Search products"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <motion.div 
+            className={styles.container}
+            initial={{ y: -30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -20, opacity: 0 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+          >
+            <div className={styles.header}>
           <form className={styles.searchForm} onSubmit={handleSearch}>
             <svg className={styles.searchIcon} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <circle cx="11" cy="11" r="8"></circle>
@@ -202,7 +216,9 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
             </div>
           )}
         </div>
-      </div>
-    </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

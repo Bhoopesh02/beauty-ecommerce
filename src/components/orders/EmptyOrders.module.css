@@ -1,0 +1,74 @@
+.emptyContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5rem 1.5rem;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.emptyTitle {
+  font-family: var(--font-cinzel), serif;
+  font-size: 1.25rem;
+  letter-spacing: 0.12em;
+  color: var(--brand-violet);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.emptyDescription {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  white-space: pre-line;
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background-color: var(--brand-violet);
+  color: var(--surface);
+  border: 1px solid var(--brand-violet);
+  transition: all 0.3s ease;
+  min-height: 44px;
+}
+
+.ctaButton:hover {
+  background-color: var(--text-primary);
+  border-color: var(--text-primary);
+}
+
+.secondaryActions {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed var(--border);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.resetBtn {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color 0.2s ease;
+}
+
+.resetBtn:hover {
+  color: var(--brand-violet);
+}

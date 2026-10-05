@@ -1,17 +1,19 @@
 import Link from "next/link";
+import RevealOnScroll from "@/components/motion/RevealOnScroll";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
   return (
     <footer className={styles.footer}>
-      <div className={`container ${styles.grid}`}>
-        <div className={styles.brandCol}>
-          <h2 className={styles.brandName}>DERRUME</h2>
-          <p className={styles.tagline}>Natural. Homemade. Pure.</p>
-        </div>
+      <RevealOnScroll yOffset={15} duration={0.6}>
+        <div className={`container ${styles.grid}`}>
+          <div className={styles.brandCol}>
+            <h2 className={styles.brandName}>DERRUME</h2>
+            <p className={styles.tagline}>Natural. Homemade. Pure.</p>
+          </div>
 
-        <div className={styles.linkGroup}>
-          <h3 className={styles.heading}>SHOP</h3>
+          <div className={styles.linkGroup}>
+            <h3 className={styles.heading}>SHOP</h3>
           <Link href="/products" className={styles.link}>All Products</Link>
           <Link href="/search?category=Skin+Care" className={styles.link}>Skin Care</Link>
           <Link href="/search?category=Hair+Care" className={styles.link}>Hair Care</Link>
@@ -39,6 +41,7 @@ export default function Footer() {
           <a href="mailto:contact@derrume.com" className={styles.link}>Email</a>
         </div>
       </div>
+      </RevealOnScroll>
 
       <div className={styles.bottom}>
         <div className={`container ${styles.bottomContent}`}>

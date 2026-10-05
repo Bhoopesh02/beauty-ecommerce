@@ -3,12 +3,10 @@
   flex-direction: column;
   overflow: hidden;
   background-color: transparent;
-  transition: transform 0.3s ease;
+  /* transition: transform 0.3s ease; Removed to keep card stable */
 }
 
-.card:hover {
-  transform: translateY(-4px);
-}
+/* Removed .card:hover { transform: translateY(-4px); } */
 
 .imageLink {
   display: block;
@@ -119,7 +117,8 @@
 }
 
 @media (min-width: 1024px) {
-  .addToBag {
+  .card .addToBag,
+  .card .addToBag:disabled {
     opacity: 0;
     transform: translateY(10px);
     transition: all 0.3s ease;
@@ -128,5 +127,9 @@
   .card:hover .addToBag {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  .card:hover .addToBag:disabled {
+    opacity: 0.6;
   }
 }

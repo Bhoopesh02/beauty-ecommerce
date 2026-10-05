@@ -12,4 +12,5 @@
 | ing-sandalwood | AI-generated with Google Gemini | gemini-3.1-flash-image | 2026-10-01 | Sandalwood pieces on a soft beige surface | TODO |
 | auth-side | AI-generated with Google Gemini | gemini-3.1-flash-image | 2026-10-01 | Quiet botanical still life, lilac and pink tones, vertical composition | TODO |
 | cat-skincare | AI-generated with Google Gemini | gemini-3.1-flash-image | 2026-10-01 | Pink petals and green leaves, fresh and dewy | TODO |
-| cat-haircare | AI-generated with Google Gemini | gemini-3.1-flash-image | 2026-10-01 | Hibiscus and herbs with soft glossy leaf textures | TODO |
+| cat-haircare | AI-generated with Google Gemini | gemini-3.1-flash-image | 2026-10-05 | Fresh botanical composition featuring soft pink hibiscus blossoms, rosemary sprigs and green herbal leaves in 3:4 portrait | Home Page Rituals |
+| cat-combos | AI-generated with Google Gemini | gemini-3.1-flash-image | 2026-10-05 | Lush artisanal floral bouquet of pale pink garden roses and purple lilac in a ceramic vase in 3:4 portrait | Home Page Rituals |

@@ -1,0 +1,221 @@
+.timelineContainer {
+  width: 100%;
+  padding: 1.5rem 0;
+}
+
+/* Desktop Horizontal View */
+.desktopTimeline {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .desktopTimeline {
+    display: block;
+    position: relative;
+    padding: 1.5rem 0.5rem 0.5rem;
+  }
+}
+
+.timelineTrack {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.baseLine {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  height: 2px;
+  background-color: var(--border);
+  z-index: 1;
+}
+
+.progressLine {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  height: 2px;
+  background-color: var(--brand-violet);
+  z-index: 2;
+  transform-origin: left;
+}
+
+.stepNode {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 90px;
+}
+
+.dotOuter {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: var(--surface);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.dotCompleted {
+  border-color: var(--brand-violet);
+  background-color: var(--brand-violet);
+  color: var(--surface);
+}
+
+.dotActive {
+  border-color: var(--brand-violet);
+  background-color: var(--surface);
+  box-shadow: 0 0 0 4px rgba(74, 50, 103, 0.15);
+}
+
+.dotInner {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--brand-violet);
+}
+
+.stepLabel {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  line-height: 1.3;
+}
+
+.stepLabelCompleted {
+  color: var(--brand-violet);
+  font-weight: 600;
+}
+
+.stepLabelActive {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.stepDate {
+  font-size: 0.6875rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+  white-space: nowrap;
+}
+
+/* Mobile Vertical View */
+.mobileTimeline {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+}
+
+@media (min-width: 768px) {
+  .mobileTimeline {
+    display: none;
+  }
+}
+
+.mobileStep {
+  position: relative;
+  display: flex;
+  gap: 1.25rem;
+  padding-bottom: 1.75rem;
+}
+
+.mobileStep:last-child {
+  padding-bottom: 0;
+}
+
+.mobileTrackCol {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mobileDot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: var(--surface);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.mobileDotCompleted {
+  border-color: var(--brand-violet);
+  background-color: var(--brand-violet);
+  color: var(--surface);
+}
+
+.mobileDotActive {
+  border-color: var(--brand-violet);
+  background-color: var(--surface);
+  box-shadow: 0 0 0 3px rgba(74, 50, 103, 0.15);
+}
+
+.mobileLine {
+  position: absolute;
+  top: 18px;
+  bottom: 0;
+  width: 2px;
+  background-color: var(--border);
+  z-index: 1;
+}
+
+.mobileLineCompleted {
+  background-color: var(--brand-violet);
+}
+
+.mobileContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-top: 0.05rem;
+}
+
+.mobileLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.mobileLabelCompleted {
+  color: var(--brand-violet);
+  font-weight: 600;
+}
+
+.mobileLabelActive {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.mobileDate {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* Cancelled State Styles */
+.cancelledNotice {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background-color: #faf7f8;
+  border-left: 3px solid #8c828d;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}

@@ -1,17 +1,55 @@
 .container {
+  width: 100%;
+}
+
+.header {
+  margin-bottom: 2.5rem;
+}
+
+.title {
+  font-family: var(--font-cinzel), serif;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  letter-spacing: 0.08em;
+  color: var(--brand-violet);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.subtitle {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+.controls {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
 }
 
-.header h1 {
-  font-family: var(--font-cinzel), serif;
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+@media (min-width: 900px) {
+  .controls {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
 }
 
-.header p {
-  color: var(--text-secondary);
+.filterCol {
+  flex: 1;
+}
+
+.searchCol {
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  .searchCol {
+    width: auto;
+    min-width: 320px;
+    margin-bottom: 2rem;
+  }
 }
 
 .orderList {
@@ -20,129 +58,21 @@
   gap: 1.5rem;
 }
 
-.orderCard {
-  background: var(--surface);
-  border: var(--botanical-orbit);
-  border-radius: 8px;
-  padding: 1.5rem;
-}
-
-.orderHeader {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.orderHeaderRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.orderId {
-  font-family: var(--font-cinzel), serif;
-  font-size: 1.125rem;
-  color: var(--brand-violet);
-  margin: 0;
-}
-
-.orderDate {
-  font-size: 0.875rem;
-  color: var(--text-secondary);
-}
-
-.orderStatus {
-  display: inline-flex;
-  padding: 0.25rem 0.75rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  text-transform: uppercase;
-}
-
-.statusPlaced, .statusConfirmed {
-  background: var(--brand-mimi);
-  color: var(--brand-violet);
-}
-
-.statusPacked, .statusShipped, .statusOutForDelivery {
-  background: #e3f2fd;
-  color: #1565c0;
-}
-
-.statusDelivered {
-  background: #e8f5e9;
-  color: #2e7d32;
-}
-
-.statusCancelled {
-  background: #ffebee;
-  color: #c62828;
-}
-
-.orderContent {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.orderPreview {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-.previewImage {
-  width: 60px;
-  height: 60px;
-  background: var(--brand-mimi);
-  border-radius: 4px;
-  object-fit: cover;
-}
-
-.previewInfo {
-  flex: 1;
-}
-
-.previewName {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--text-primary);
-  margin-bottom: 0.25rem;
-}
-
-.previewMore {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-}
-
-.orderFooter {
+.resultsMeta {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border);
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
 }
 
-.orderTotal {
+.clearFilterLink {
+  color: var(--brand-violet);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 0.8125rem;
   font-weight: 500;
-  color: var(--text-primary);
-}
-
-@media (min-width: 768px) {
-  .orderHeader {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .orderContent {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
 }

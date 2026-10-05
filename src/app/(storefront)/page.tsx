@@ -7,6 +7,10 @@ import Button from "@/components/Button";
 import SectionHeading from "@/components/SectionHeading";
 import ProductCard from "@/components/ProductCard";
 import { defaultProducts } from "@/data/products";
+import FadeIn from "@/components/motion/FadeIn";
+import RevealOnScroll from "@/components/motion/RevealOnScroll";
+import StaggerContainer from "@/components/motion/StaggerContainer";
+import StaggerItem from "@/components/motion/StaggerItem";
 
 export default function Home() {
   const featuredProducts = defaultProducts.filter(p => p.featured).slice(0, 4);
@@ -17,155 +21,167 @@ export default function Home() {
       {/* 1. HERO */}
       <section className={styles.hero}>
         <div className={styles.heroBackground}>
-          <Image src="/images/stock/home-hero/home-hero.webp" alt="Botanical flat lay" fill sizes="100vw" style={{objectFit: 'cover'}} priority />
+          <Image src="/images/stock/home-hero/home-hero-4k.webp" alt="Botanical flat lay" fill sizes="100vw" unoptimized style={{objectFit: 'cover'}} priority />
         </div>
         <div className={`container ${styles.heroContainer}`}>
-          <div className={`${styles.heroContent} animate-fade-in`}>
+          <FadeIn delay={0.2} duration={0.8} className={styles.heroContent}>
             <h1 className="heading-hero">NATURE,<br />BOTTLED<br />BEAUTIFULLY.</h1>
             <p className={styles.heroSubtitle}>100% Natural. Homemade. Pure.</p>
             <div className={styles.heroActions}>
               <Button href="/products">SHOP THE COLLECTION</Button>
               <Button href="/about" variant="outline">OUR STORY</Button>
             </div>
-          </div>
+          </FadeIn>
         </div>
       </section>
 
       {/* 2. DERRUME PROMISE */}
       <section className={styles.promise}>
-        <div className={`container ${styles.promiseContainer}`}>
-          <div className={styles.promiseItem}>
+        <StaggerContainer className={`container ${styles.promiseContainer}`} delayChildren={0.4} staggerChildren={0.15}>
+          <StaggerItem className={styles.promiseItem}>
             <span className={styles.promiseIcon}>✧</span>
             <span>100% NATURAL</span>
-          </div>
-          <div className={styles.promiseItem}>
+          </StaggerItem>
+          <StaggerItem className={styles.promiseItem}>
             <span className={styles.promiseIcon}>✧</span>
             <span>HANDMADE</span>
-          </div>
-          <div className={styles.promiseItem}>
+          </StaggerItem>
+          <StaggerItem className={styles.promiseItem}>
             <span className={styles.promiseIcon}>✧</span>
             <span>PURE INGREDIENTS</span>
-          </div>
-          <div className={styles.promiseItem}>
+          </StaggerItem>
+          <StaggerItem className={styles.promiseItem}>
             <span className={styles.promiseIcon}>✧</span>
             <span>MADE WITH CARE</span>
-          </div>
-        </div>
+          </StaggerItem>
+        </StaggerContainer>
       </section>
 
       {/* 3. FEATURED PRODUCTS */}
       <section className="section-spacing container" style={{ paddingBottom: 0 }}>
-        <SectionHeading 
-          title="A RITUAL WORTH KEEPING" 
-          subtitle="Discover the products our customers reach for again and again." 
-        />
-        <div className={styles.productGrid}>
+        <RevealOnScroll>
+          <SectionHeading 
+            title="A RITUAL WORTH KEEPING" 
+            subtitle="Discover the products our customers reach for again and again." 
+          />
+        </RevealOnScroll>
+        <StaggerContainer className={styles.productGrid} staggerChildren={0.1}>
           {featuredProducts.map(product => (
-            <ProductCard key={product.id} product={product} />
+            <StaggerItem key={product.id}>
+              <ProductCard product={product} />
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </section>
 
       {/* 4. CHOOSE YOUR RITUAL */}
       <section className={`section-spacing ${styles.ritualsSection}`}>
         <div className="container">
-          <SectionHeading title="CHOOSE YOUR RITUAL" />
-          <div className={styles.ritualsGrid}>
-            <div className={styles.ritualCard}>
+          <RevealOnScroll>
+            <SectionHeading title="CHOOSE YOUR RITUAL" />
+          </RevealOnScroll>
+          <StaggerContainer className={styles.ritualsGrid} staggerChildren={0.2}>
+            <StaggerItem className={styles.ritualCard}>
               <div className={styles.ritualImagePlaceholder}>
-                <Image src="/images/stock/categories/skincare.webp" alt="Skincare Ritual" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" style={{objectFit: 'cover'}} />
+                <Image src="/images/stock/categories/skincare-4k.webp" alt="Skincare Ritual" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" unoptimized style={{objectFit: 'cover'}} />
               </div>
               <div className={styles.ritualContent}>
                 <h3 className={styles.ritualTitle}>THE GLOW RITUAL</h3>
                 <p className={styles.ritualType}>Skin Care</p>
               </div>
-            </div>
-            <div className={styles.ritualCard}>
+            </StaggerItem>
+            <StaggerItem className={styles.ritualCard}>
               <div className={styles.ritualImagePlaceholder}>
-                <Image src="/images/stock/categories/haircare.webp" alt="Haircare Ritual" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" style={{objectFit: 'cover'}} />
+                <Image src="/images/stock/categories/haircare-4k.webp" alt="Haircare Ritual" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" unoptimized style={{objectFit: 'cover'}} />
               </div>
               <div className={styles.ritualContent}>
                 <h3 className={styles.ritualTitle}>THE HAIR RITUAL</h3>
                 <p className={styles.ritualType}>Hair Care</p>
               </div>
-            </div>
-            <div className={styles.ritualCard}>
+            </StaggerItem>
+            <StaggerItem className={styles.ritualCard}>
               <div className={styles.ritualImagePlaceholder}>
-                <Image src="/images/stock/categories/combos.webp" alt="Everyday Ritual" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" style={{objectFit: 'cover'}} />
+                <Image src="/images/stock/categories/combos-4k.webp" alt="Everyday Ritual" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" unoptimized style={{objectFit: 'cover'}} />
               </div>
               <div className={styles.ritualContent}>
                 <h3 className={styles.ritualTitle}>THE EVERYDAY RITUAL</h3>
                 <p className={styles.ritualType}>Daily Care</p>
               </div>
-            </div>
-          </div>
+            </StaggerItem>
+          </StaggerContainer>
         </div>
       </section>
 
       {/* 5. SHOP BY CONCERN */}
       <section className="section-spacing container" style={{ paddingBottom: 0 }}>
-        <SectionHeading title="WHAT DOES YOUR SKIN NEED?" />
-        <div className={styles.concernGrid}>
+        <RevealOnScroll>
+          <SectionHeading title="WHAT DOES YOUR SKIN NEED?" />
+        </RevealOnScroll>
+        <StaggerContainer className={styles.concernGrid} staggerChildren={0.1}>
           {['HYDRATION', 'GLOW', 'CLEANSING', 'NOURISHMENT'].map((concern) => (
-            <Link key={concern} href={`/products?concern=${concern.toLowerCase()}`} className={styles.concernCard}>
-              {concern}
-            </Link>
+            <StaggerItem key={concern}>
+              <Link href={`/products?concern=${concern.toLowerCase()}`} className={styles.concernCard}>
+                {concern}
+              </Link>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </section>
 
       {/* 6. BRAND STORY */}
       <section className={`section-spacing ${styles.storySection}`} style={{ paddingBottom: 0 }}>
-        <div className={`container ${styles.storyContainer}`}>
-          <div className={styles.storyContent}>
+        <StaggerContainer className={`container ${styles.storyContainer}`} staggerChildren={0.2}>
+          <StaggerItem className={styles.storyContent}>
             <h2 className="heading-section">FROM NATURE,<br />WITH INTENTION.</h2>
             <p className={styles.storyText}>
               DERRUME is built around a simple belief: skincare should feel pure, personal and uncomplicated.
             </p>
             <Button href="/about" variant="outline">READ OUR STORY</Button>
-          </div>
-          <div className={styles.storyImagePlaceholder}>
+          </StaggerItem>
+          <StaggerItem className={styles.storyImagePlaceholder}>
             <div className={styles.storyOrbit}></div>
             <Image src="/images/stock/about/about-story.webp" alt="Botanicals in a wooden bowl" fill sizes="(max-width: 768px) 100vw, 50vw" style={{objectFit: 'cover'}} />
-          </div>
-        </div>
+          </StaggerItem>
+        </StaggerContainer>
       </section>
 
       {/* 7. INGREDIENT GARDEN */}
       <section className="section-spacing container" style={{ paddingBottom: 0 }}>
-        <SectionHeading title="WHAT NATURE GIVES US" />
-        <div className={styles.ingredientGrid}>
+        <RevealOnScroll>
+          <SectionHeading title="WHAT NATURE GIVES US" />
+        </RevealOnScroll>
+        <StaggerContainer className={styles.ingredientGrid}>
           {[
             { name: 'ROSE', image: '/images/stock/ingredients/rose.webp' },
             { name: 'ALOE', image: '/images/stock/ingredients/aloe.webp' },
             { name: 'NEEM', image: '/images/stock/ingredients/neem.webp' },
             { name: 'TURMERIC', image: '/images/stock/ingredients/turmeric.webp' }
           ].map((ingredient) => (
-            <div key={ingredient.name} className={styles.ingredientCard}>
+            <StaggerItem key={ingredient.name} className={styles.ingredientCard}>
               <div className={styles.ingredientImagePlaceholder} style={{position: 'relative', overflow: 'hidden'}}>
                 <Image src={ingredient.image} alt={`Illustration of ${ingredient.name}`} fill sizes="(max-width: 768px) 50vw, 25vw" style={{objectFit: 'cover'}} />
               </div>
               <h4 className={styles.ingredientTitle}>{ingredient.name}</h4>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </section>
 
       {/* 8. MADE BY HAND */}
       <section className={`section-spacing ${styles.handmadeSection}`}>
-        <div className={`container ${styles.handmadeContainer}`}>
-          <div className={styles.handmadeImagePlaceholder}>
-            <Image src="/images/stock/auth/auth-side.webp" alt="Handmade Care" fill sizes="(max-width: 768px) 100vw, 50vw" style={{objectFit: 'cover'}} />
-          </div>
-          <div className={styles.handmadeContent}>
+        <StaggerContainer className={`container ${styles.handmadeContainer}`}>
+          <StaggerItem className={styles.handmadeImagePlaceholder}>
+            <Image src="/images/stock/auth/auth-side-4k.webp" alt="Handmade Care" fill sizes="(max-width: 768px) 100vw, 50vw" unoptimized style={{objectFit: 'cover'}} />
+          </StaggerItem>
+          <StaggerItem className={styles.handmadeContent}>
             <h2 className="heading-section">MADE WITH<br />HUMAN HANDS.</h2>
             <p className={styles.handmadeText}>
               Small batches.<br />
               Thoughtful ingredients.<br />
               Personal care.
             </p>
-          </div>
-        </div>
+          </StaggerItem>
+        </StaggerContainer>
       </section>
 
       {/* 9. BEST SELLERS */}
@@ -203,7 +219,16 @@ export default function Home() {
         <SectionHeading title="FROM OUR BOTANICAL JOURNAL" />
         <div className={styles.instaGrid}>
           {[1, 2, 3, 4].map(i => (
-            <div key={i} className={styles.instaImagePlaceholder}></div>
+            <div key={i} className={styles.instaImagePlaceholder} style={{ position: 'relative', overflow: 'hidden' }}>
+              <Image 
+                src={`/images/stock/insta/insta_${i}.jpg`} 
+                alt={`Botanical Journal image ${i}`} 
+                fill 
+                sizes="(max-width: 768px) 50vw, 25vw" 
+                style={{ objectFit: 'cover', transition: 'transform 0.5s ease' }} 
+                className="hover-scale"
+              />
+            </div>
           ))}
         </div>
         <div className={styles.instaAction}>

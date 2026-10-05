@@ -14,7 +14,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
       <div className={styles.content}>
         <div className={styles.imageSection}>
           <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-            <Image src="/images/stock/auth/auth-side.webp" alt="Botanical still life" fill style={{objectFit: 'cover'}} priority />
+            <Image src="/images/stock/auth/auth-side-4k.webp" alt="Botanical still life" fill unoptimized style={{objectFit: 'cover'}} priority />
           </div>
         </div>
         <div className={styles.formSection}>

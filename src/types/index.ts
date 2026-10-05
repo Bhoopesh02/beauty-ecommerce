@@ -55,6 +55,7 @@ export type Address = {
   state: string;
   pincode: string;
   landmark?: string;
+  country?: string;
   type: "home" | "work" | "other";
   isDefault: boolean;
 };
@@ -71,13 +72,26 @@ export type CartItem = {
 
 export type CheckoutMode = "cart" | "buy-now";
 
-export type OrderItem = CartItem;
+export type OrderItem = CartItem & {
+  color?: string;
+  slug?: string;
+};
 
 export type OrderStatus = "Placed" | "Confirmed" | "Packed" | "Shipped" | "Out for Delivery" | "Delivered" | "Cancelled";
+
+export type OrderFilterTab = "All" | "Processing" | "Shipped" | "Delivered" | "Cancelled";
 
 export type StatusHistory = {
   status: OrderStatus;
   timestamp: string;
+  note?: string;
+};
+
+export type TrackingCheckpoint = {
+  status: string;
+  location: string;
+  timestamp: string;
+  description: string;
 };
 
 export type Order = {
@@ -94,4 +108,23 @@ export type Order = {
   total: number;
   createdAt: string;
   statusHistory: StatusHistory[];
+  
+  // Luxury Order Enhancements
+  trackingNumber?: string;
+  carrier?: string;
+  trackingCheckpoints?: TrackingCheckpoint[];
+  estimatedDelivery?: string;
+  deliveredAt?: string;
+  paymentDetails?: {
+    method: string;
+    cardLast4?: string;
+    status: string;
+    paidAt?: string;
+  };
+  cancelReason?: string;
+  cancelledAt?: string;
+  returnStatus?: "none" | "requested" | "approved" | "completed";
+  returnReason?: string;
+  returnRequestedAt?: string;
 };
+

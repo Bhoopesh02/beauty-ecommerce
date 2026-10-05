@@ -11,7 +11,7 @@ export default function NotFound() {
       <div className="container animate-fade-in">
         <div className={styles.content}>
           <div className={styles.icon} style={{ position: 'relative', width: '200px', height: '200px', marginBottom: '2rem', borderRadius: '50%', overflow: 'hidden' }}>
-            <Image src="/images/stock/decorative/404.webp" alt="Delicate Botanical Sprig" fill style={{objectFit: 'cover'}} />
+            <Image src="/images/stock/decorative/404-4k.webp" alt="Delicate Botanical Sprig" fill unoptimized style={{objectFit: 'cover'}} />
           </div>
           
           <SectionHeading centered>

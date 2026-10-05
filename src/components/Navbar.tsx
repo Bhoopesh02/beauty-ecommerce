@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import styles from "./Navbar.module.css";
 import SearchOverlay from "./SearchOverlay";
 import { useAuth } from "@/hooks/useAuth";
@@ -69,9 +70,16 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && (
-        <div className={styles.mobileMenuOverlay}>
-          <div className={styles.mobileMenuHeader}>
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div 
+            className={styles.mobileMenuOverlay}
+            initial={{ opacity: 0, x: "-100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "-100%" }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div className={styles.mobileMenuHeader}>
             <span className={styles.mobileMenuTitle}>Menu</span>
             <button className={styles.closeBtn} onClick={() => setIsMobileMenuOpen(false)} aria-label="Close menu">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -86,8 +94,9 @@ export default function Navbar() {
             <Link href={mounted && user ? "/account" : "/login"} onClick={() => setIsMobileMenuOpen(false)}>Account</Link>
             <Link href="/wishlist" onClick={() => setIsMobileMenuOpen(false)}>Wishlist {mounted && wishlist.length > 0 ? `(${wishlist.length})` : ""}</Link>
           </nav>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Search Overlay */}
       <SearchOverlay isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
